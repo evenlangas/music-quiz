@@ -195,10 +195,19 @@ async function api(path, options) {
   });
   if (res.status === 204) return null;
   const text = await res.text();
-  const data = text ? JSON.parse(text) : null;
+  let data = null;
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      // Spotify svarer noen ganger med ren tekst eller HTML, særlig ved 5xx.
+      const snippet = text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 120);
+      throw new Error('Spotify svarte ' + res.status + ' på ' + path.split('?')[0] + ': ' + snippet);
+    }
+  }
   if (!res.ok) {
     const msg = (data && data.error && data.error.message) || String(res.status);
-    throw new Error('Spotify: ' + msg);
+    throw new Error('Spotify ' + res.status + ' på ' + path.split('?')[0] + ': ' + msg);
   }
   return data;
 }
@@ -252,6 +261,14 @@ export async function initPlayer() {
     playerState = 'error';
     playerError = 'Nettleseren klarte ikke å koble til Spotify.';
     emit();
+  }
+}
+
+// iOS Safari krever at lydelementet aktiveres inne i et trykk fra brukeren.
+// Kall denne synkront fra en click-handler, før navigasjon eller await.
+export function activate() {
+  if (player && typeof player.activateElement === 'function') {
+    player.activateElement().catch(() => {});
   }
 }
 

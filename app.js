@@ -305,6 +305,9 @@ function renderBoard(r) {
     </div>
   `);
 
+  // Aktiver lyd mens vi fortsatt er inne i trykket. iOS Safari krever det.
+  view.querySelectorAll('.cell').forEach((a) => a.addEventListener('click', () => sp.activate()));
+
   view.querySelector('#reset-board').addEventListener('click', () => {
     if (!confirm('Merke alle ruter som ubrukte?')) return;
     localStorage.removeItem(usedKey(board.id));
@@ -429,13 +432,21 @@ function drawPlay() {
     drawPlay();
   });
   view.querySelector('#restart').addEventListener('click', () => {
+    sp.activate();
     p.paused = false;
     p.status = 'starter';
     drawPlay();
     startPlayback();
   });
   const retry = view.querySelector('#retry');
-  if (retry) retry.addEventListener('click', () => startPlayback());
+  if (retry) {
+    retry.addEventListener('click', () => {
+      sp.activate();
+      p.status = 'starter';
+      drawPlay();
+      startPlayback();
+    });
+  }
 
   view.querySelectorAll('[data-award]').forEach((b) =>
     b.addEventListener('click', () => {
