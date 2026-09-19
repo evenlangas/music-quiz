@@ -220,27 +220,25 @@ function renderHome() {
 }
 
 function spotifyBox() {
-  const clientId = sp.getClientId();
+  if (!sp.getClientId()) {
+    return el(`
+      <div>
+        <p class="banner bad">Appen mangler Spotify Client ID. Sett <code>DEFAULT_CLIENT_ID</code> i <code>spotify.js</code>.</p>
+        <p class="muted small">Redirect URI for denne siden: <code>${esc(sp.redirectUri())}</code></p>
+      </div>
+    `);
+  }
+
   const box = el(`
     <div>
-      <form class="row" id="client-form">
-        <input name="clientId" placeholder="Spotify Client ID" value="${esc(clientId)}" autocomplete="off" spellcheck="false">
-        <button type="submit">Lagre</button>
-      </form>
-      <p class="muted small">Redirect URI som må stå i Spotify-appen din:<br><code>${esc(sp.redirectUri())}</code></p>
+      <p class="muted">Logg inn med din egen Spotify-konto. Avspilling krever Spotify Premium.</p>
       <div class="row">
         ${sp.isLoggedIn() ? '<button id="logout">Logg ut</button>' : '<button id="login" class="primary">Logg inn i Spotify</button>'}
         <button id="clear-cache" class="link">Tøm sang-cache</button>
       </div>
-      <p class="muted small">Avspilling krever Spotify Premium.</p>
     </div>
   `);
 
-  box.querySelector('#client-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    sp.setClientId(e.target.clientId.value);
-    render();
-  });
   const login = box.querySelector('#login');
   if (login) {
     login.addEventListener('click', () => {

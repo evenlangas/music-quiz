@@ -1,5 +1,9 @@
 // Spotify: innlogging med PKCE, søk etter låter og avspilling i nettleseren.
 
+// Client ID er ikke hemmelig. Den er offentlig i PKCE-flyten.
+// Alle som bruker appen logger inn med sin egen Spotify-konto.
+const DEFAULT_CLIENT_ID = '693320aa63a34792a675f1a623193e8f';
+
 const AUTH_URL = 'https://accounts.spotify.com/authorize';
 const TOKEN_URL = 'https://accounts.spotify.com/api/token';
 const API = 'https://api.spotify.com/v1';
@@ -40,12 +44,9 @@ export function redirectUri() {
   return location.origin + location.pathname;
 }
 
+// En egen Client ID i localStorage overstyrer standarden. Nyttig for den som forker appen.
 export function getClientId() {
-  return localStorage.getItem(LS.clientId) || '';
-}
-
-export function setClientId(id) {
-  localStorage.setItem(LS.clientId, id.trim());
+  return localStorage.getItem(LS.clientId) || DEFAULT_CLIENT_ID;
 }
 
 /* ---------- token ---------- */
@@ -296,7 +297,7 @@ export async function findTrackUri(song) {
 /* ---------- avspilling ---------- */
 
 export async function playSong(song) {
-  if (!getClientId()) throw new Error('Sett inn Spotify Client ID på forsiden.');
+  if (!getClientId()) throw new Error('Appen mangler Spotify Client ID.');
   if (!isLoggedIn()) throw new Error('Logg inn i Spotify på forsiden.');
   if (playerState !== 'ready') await initPlayer();
   for (let i = 0; i < 40 && !deviceId; i++) {

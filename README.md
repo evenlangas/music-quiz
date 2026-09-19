@@ -28,21 +28,33 @@ python -m http.server 5173
 
 ## Koble til Spotify
 
-Avspilling krever Spotify Premium.
-
-1. Gå til https://developer.spotify.com/dashboard og lag en app.
-2. Kryss av for **Web API** og **Web Playback SDK**.
-3. Legg inn disse Redirect URI-ene:
-   - `http://localhost:5173/` for lokal testing
-   - `https://evenlangas.no/music-quiz/` for den publiserte siden
-4. Kopier **Client ID** fra appen.
-5. Lim Client ID inn på forsiden i quizen og trykk Lagre.
-6. Trykk "Logg inn i Spotify".
-
-Appen bruker PKCE. Du trenger ikke Client Secret.
+Game master trykker "Logg inn i Spotify" på forsiden og logger inn med sin egen
+Spotify-konto. Avspilling krever Spotify Premium.
 
 Appen finner hver sang med et søk mot Spotify og husker treffet i nettleseren.
 Vil du låse en sang til et bestemt opptak, legg til feltet `uri` på sangen.
+
+### Hvem kan logge inn
+
+Spotify-appen står i utviklingsmodus. Da kan bare personer på gjestelisten logge
+inn, maks 25. Legg til nye game mastere slik:
+
+1. Gå til https://developer.spotify.com/dashboard og åpne appen.
+2. Trykk **Settings** og så **User Management**.
+3. Skriv inn navn og e-postadressen personen bruker på Spotify.
+
+### Forke appen med egen Spotify-app
+
+Client ID ligger i `spotify.js` som `DEFAULT_CLIENT_ID`. Den er ikke hemmelig.
+Vil du bruke din egen Spotify-app:
+
+1. Gå til https://developer.spotify.com/dashboard og lag en app.
+2. Kryss av for **Web API** og **Web Playback SDK**.
+3. Legg inn Redirect URI for stedet appen kjører, med skråstrek på slutten.
+   Lokalt er det `http://localhost:5173/`.
+4. Kopier **Client ID** inn i `DEFAULT_CLIENT_ID`.
+
+Appen bruker PKCE. Du trenger ikke Client Secret.
 
 ## Legg til et nytt brett
 
