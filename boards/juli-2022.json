@@ -1,0 +1,287 @@
+{
+  "id": "juli-2022",
+  "name": "Musikkquiz juli 2022",
+  "description": "Yrke, fremkomstmiddel, film, farge, alkohol, mat, steder og tall.",
+  "categories": [
+    {
+      "name": "Yrke",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Rocket Man",
+          "artist": "Elton John",
+          "answer": "Astronaut"
+        },
+        {
+          "difficulty": 2,
+          "title": "Sailing",
+          "artist": "Rod Stewart",
+          "answer": "Seiler"
+        },
+        {
+          "difficulty": 3,
+          "title": "Brooklyn Nine-Nine Theme",
+          "artist": "",
+          "answer": "Politi"
+        },
+        {
+          "difficulty": 4,
+          "title": "Panda",
+          "artist": "Desiigner",
+          "answer": "Designer"
+        },
+        {
+          "difficulty": 5,
+          "title": "Under Pressure",
+          "artist": "Queen",
+          "answer": "Dronning"
+        }
+      ]
+    },
+    {
+      "name": "Fremkomstmiddel",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Super Max!",
+          "artist": "Pitstop Boys",
+          "answer": "Bil"
+        },
+        {
+          "difficulty": 2,
+          "title": "I'm on a Boat",
+          "artist": "The Lonely Island",
+          "answer": "Båt"
+        },
+        {
+          "difficulty": 3,
+          "title": "Dommedagen 2020",
+          "artist": "",
+          "answer": "Sykkel"
+        },
+        {
+          "difficulty": 4,
+          "title": "Creme de la creme",
+          "artist": "",
+          "answer": "Kamel"
+        },
+        {
+          "difficulty": 5,
+          "title": "Space Oddity",
+          "artist": "David Bowie",
+          "answer": "Romrakett"
+        }
+      ]
+    },
+    {
+      "name": "Film/serie",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "The Good, the Bad and the Ugly",
+          "artist": "Ennio Morricone",
+          "answer": "The Good, the Bad and the Ugly"
+        },
+        {
+          "difficulty": 2,
+          "title": "Shallow",
+          "artist": "Lady Gaga",
+          "answer": "A Star Is Born"
+        },
+        {
+          "difficulty": 3,
+          "title": "My Shiny Teeth and Me",
+          "artist": "",
+          "answer": "Fairly OddParents"
+        },
+        {
+          "difficulty": 4,
+          "title": "Theme from Jurassic Park",
+          "artist": "John Williams",
+          "answer": "Jurassic Park"
+        },
+        {
+          "difficulty": 5,
+          "title": "Here We Go (Totally Spies)",
+          "artist": "",
+          "answer": "Totally Spies"
+        }
+      ]
+    },
+    {
+      "name": "Farge",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Yellow",
+          "artist": "Coldplay",
+          "answer": "Gul"
+        },
+        {
+          "difficulty": 2,
+          "title": "Mr. Blue Sky",
+          "artist": "Electric Light Orchestra",
+          "answer": "Blå"
+        },
+        {
+          "difficulty": 3,
+          "title": "Red Right Hand",
+          "artist": "Nick Cave & The Bad Seeds",
+          "answer": "Rød"
+        },
+        {
+          "difficulty": 4,
+          "title": "Treasure",
+          "artist": "Bruno Mars",
+          "answer": "Brun"
+        },
+        {
+          "difficulty": 5,
+          "title": "Big Yellow Taxi",
+          "artist": "Joni Mitchell",
+          "answer": "Gul"
+        }
+      ]
+    },
+    {
+      "name": "Alkohol",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Kjells Angels",
+          "artist": "",
+          "answer": "Underberg"
+        },
+        {
+          "difficulty": 2,
+          "title": "Tequila",
+          "artist": "The Champs",
+          "answer": "Tequila"
+        },
+        {
+          "difficulty": 3,
+          "title": "Escape (The Piña Colada Song)",
+          "artist": "Rupert Holmes",
+          "answer": "Piña colada"
+        },
+        {
+          "difficulty": 4,
+          "title": "Ølbriller",
+          "artist": "",
+          "answer": "Øl"
+        },
+        {
+          "difficulty": 5,
+          "title": "The Rhythm of the Night",
+          "artist": "Corona",
+          "answer": "Corona"
+        }
+      ]
+    },
+    {
+      "name": "Mat/drikke",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Waterloo",
+          "artist": "ABBA",
+          "answer": "Vann"
+        },
+        {
+          "difficulty": 2,
+          "title": "Hummer og horer",
+          "artist": "",
+          "answer": "Hummer"
+        },
+        {
+          "difficulty": 3,
+          "title": "Californication",
+          "artist": "Red Hot Chili Peppers",
+          "answer": "Chili"
+        },
+        {
+          "difficulty": 4,
+          "title": "Where Is the Love?",
+          "artist": "The Black Eyed Peas",
+          "answer": "Ert"
+        },
+        {
+          "difficulty": 5,
+          "title": "Ice Ice Baby",
+          "artist": "Vanilla Ice",
+          "answer": "Vaniljeis"
+        }
+      ]
+    },
+    {
+      "name": "Steder",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Italia",
+          "artist": "",
+          "answer": "Italia"
+        },
+        {
+          "difficulty": 2,
+          "title": "Africa",
+          "artist": "Toto",
+          "answer": "Afrika"
+        },
+        {
+          "difficulty": 3,
+          "title": "Sør-Afrika",
+          "artist": "",
+          "answer": "Sør-Afrika"
+        },
+        {
+          "difficulty": 4,
+          "title": "Funkytown",
+          "artist": "Lipps Inc.",
+          "answer": "Funkytown"
+        },
+        {
+          "difficulty": 5,
+          "title": "The Final Countdown",
+          "artist": "Europe",
+          "answer": "Europa"
+        }
+      ]
+    },
+    {
+      "name": "Tall",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "I'm Gonna Be (500 Miles)",
+          "artist": "The Proclaimers",
+          "answer": "500"
+        },
+        {
+          "difficulty": 2,
+          "title": "What Makes You Beautiful",
+          "artist": "One Direction",
+          "answer": "1"
+        },
+        {
+          "difficulty": 3,
+          "title": "32-18",
+          "artist": "",
+          "answer": "32-18"
+        },
+        {
+          "difficulty": 4,
+          "title": "99 Luftballons",
+          "artist": "Nena",
+          "answer": "99"
+        },
+        {
+          "difficulty": 5,
+          "title": "Mood",
+          "artist": "24kGoldn",
+          "answer": "24"
+        }
+      ]
+    }
+  ]
+}

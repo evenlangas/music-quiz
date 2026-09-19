@@ -189,7 +189,7 @@ function renderHome() {
       <a class="board-card" href="#/b/${b.id}">
         <h3>${esc(b.name)}</h3>
         <p>${esc(b.description || '')}</p>
-        <span class="muted">${b.categories.length} kategorier &middot; ${b.categories.length * 5} sanger</span>
+        <span class="muted">${b.categories.length} kategorier &middot; ${b.categories.reduce((n, c) => n + c.songs.length, 0)} sanger</span>
       </a>`
     )
     .join('');
@@ -345,7 +345,8 @@ function renderPlay(r) {
 function startPlayback() {
   const p = state.playing;
   sp.playSong(p.song)
-    .then(() => {
+    .then((label) => {
+      p.played = label || '';
       p.status = 'spiller';
       p.startedAt = Date.now();
       drawPlay();
@@ -377,7 +378,8 @@ function drawPlay() {
          <p class="answer-label">Fasit</p>
          <p class="answer-text">${esc(p.song.answer)}</p>
          <p class="answer-why">${esc(p.song.why || '')}</p>
-         <p class="answer-song">${esc(p.song.title)} &mdash; ${esc(p.song.artist)}</p>
+         <p class="answer-song">${esc(p.song.title)}${p.song.artist ? ' &mdash; ' + esc(p.song.artist) : ''}</p>
+         ${p.played ? `<p class="answer-song">Spotify spilte: ${esc(p.played)}</p>` : ''}
        </div>`
     : '<button id="reveal" class="big">Vis fasit</button>';
 

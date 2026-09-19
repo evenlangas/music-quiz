@@ -292,22 +292,27 @@ export function clearTrackCache() {
   localStorage.removeItem(LS.trackCache);
 }
 
-export async function findTrackUri(song) {
-  if (song.uri) return song.uri;
-  const key = song.artist + ' | ' + song.title;
+// Gir { uri, label }. label er navnet Spotify har på sporet, til kontroll.
+export async function findTrack(song) {
+  if (song.uri) return { uri: song.uri, label: '' };
+  const artist = (song.artist || '').trim();
+  const key = artist + ' | ' + song.title;
   const hit = readCache()[key];
-  if (hit) return hit;
+  if (hit && hit.uri) return hit;
 
-  const queries = [
-    'track:' + song.title + ' artist:' + song.artist,
-    song.title + ' ' + song.artist
-  ];
+  const queries = artist
+    ? ['track:' + song.title + ' artist:' + artist, song.title + ' ' + artist]
+    : ['track:' + song.title, song.title];
   for (const q of queries) {
     const data = await api('/search?type=track&limit=1&market=from_token&q=' + encodeURIComponent(q));
     const item = data && data.tracks && data.tracks.items[0];
     if (item) {
-      cacheSet(key, item.uri);
-      return item.uri;
+      const found = {
+        uri: item.uri,
+        label: item.name + ' — ' + item.artists.map((a) => a.name).join(', ')
+      };
+      cacheSet(key, found);
+      return found;
     }
   }
   throw new Error('Fant ikke sangen i Spotify.');
@@ -323,11 +328,12 @@ export async function playSong(song) {
     await new Promise((r) => setTimeout(r, 250));
   }
   if (!deviceId) throw new Error('Avspilleren ble ikke klar. Last siden på nytt.');
-  const uri = await findTrackUri(song);
+  const track = await findTrack(song);
   await api('/me/player/play?device_id=' + deviceId, {
     method: 'PUT',
-    body: JSON.stringify({ uris: [uri], position_ms: song.startMs || 0 })
+    body: JSON.stringify({ uris: [track.uri], position_ms: song.startMs || 0 })
   });
+  return track.label;
 }
 
 export async function pause() {

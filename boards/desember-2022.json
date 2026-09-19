@@ -1,0 +1,287 @@
+{
+  "id": "desember-2022",
+  "name": "Musikkquiz desember 2022",
+  "description": "Dyr, mat, menneskekroppen, grunnstoffer, film, farge, idrett og stat i USA.",
+  "categories": [
+    {
+      "name": "Dyr",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Dance Monkey",
+          "artist": "Tones and I",
+          "answer": "Ape"
+        },
+        {
+          "difficulty": 2,
+          "title": "Roar",
+          "artist": "Katy Perry",
+          "answer": "Tiger"
+        },
+        {
+          "difficulty": 3,
+          "title": "Woman",
+          "artist": "Doja Cat",
+          "answer": "Katt"
+        },
+        {
+          "difficulty": 4,
+          "title": "Hotel California",
+          "artist": "Eagles",
+          "answer": "Ørn"
+        },
+        {
+          "difficulty": 5,
+          "title": "Eine kleine Nachtmusik",
+          "artist": "Wolfgang Amadeus Mozart",
+          "answer": "Ulv"
+        }
+      ]
+    },
+    {
+      "name": "Mat",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Candy Paint",
+          "artist": "Post Malone",
+          "answer": "Godteri"
+        },
+        {
+          "difficulty": 2,
+          "title": "Watermelon Sugar",
+          "artist": "Harry Styles",
+          "answer": "Vannmelon"
+        },
+        {
+          "difficulty": 3,
+          "title": "Pour Some Sugar on Me",
+          "artist": "Def Leppard",
+          "answer": "Sukker"
+        },
+        {
+          "difficulty": 4,
+          "title": "Fly Me to the Moon",
+          "artist": "Frank Sinatra",
+          "answer": "Mars-bar"
+        },
+        {
+          "difficulty": 5,
+          "title": "Johnny B. Goode",
+          "artist": "Chuck Berry",
+          "answer": "Bær"
+        }
+      ]
+    },
+    {
+      "name": "Menneskekroppen",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "(I Just) Died in Your Arms",
+          "artist": "Cutting Crew",
+          "answer": "Arm"
+        },
+        {
+          "difficulty": 2,
+          "title": "Hjerteløs",
+          "artist": "",
+          "answer": "Hjerte"
+        },
+        {
+          "difficulty": 3,
+          "title": "Iris",
+          "artist": "The Goo Goo Dolls",
+          "answer": "Iris"
+        },
+        {
+          "difficulty": 4,
+          "title": "Funkytown",
+          "artist": "Lipps Inc.",
+          "answer": "Lepper"
+        },
+        {
+          "difficulty": 5,
+          "title": "Brain Damage",
+          "artist": "Pink Floyd",
+          "answer": "Hjerne"
+        }
+      ]
+    },
+    {
+      "name": "Grunnstoffer",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Titanium",
+          "artist": "David Guetta",
+          "answer": "Titan"
+        },
+        {
+          "difficulty": 2,
+          "title": "Neon Lights",
+          "artist": "Demi Lovato",
+          "answer": "Neon"
+        },
+        {
+          "difficulty": 3,
+          "title": "The Trooper",
+          "artist": "Iron Maiden",
+          "answer": "Jern"
+        },
+        {
+          "difficulty": 4,
+          "title": "Asgeirs bil",
+          "artist": "",
+          "answer": "Brom"
+        },
+        {
+          "difficulty": 5,
+          "title": "24K Magic",
+          "artist": "Bruno Mars",
+          "answer": "Gull"
+        }
+      ]
+    },
+    {
+      "name": "Film/serie",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Circle of Life",
+          "artist": "Elton John",
+          "answer": "Løvenes konge"
+        },
+        {
+          "difficulty": 2,
+          "title": "Raiders March",
+          "artist": "John Williams",
+          "answer": "Indiana Jones"
+        },
+        {
+          "difficulty": 3,
+          "title": "Strange Things",
+          "artist": "Randy Newman",
+          "answer": "Toy Story"
+        },
+        {
+          "difficulty": 4,
+          "title": "Time",
+          "artist": "Hans Zimmer",
+          "answer": "Inception"
+        },
+        {
+          "difficulty": 5,
+          "title": "I'm Forrest... Forrest Gump",
+          "artist": "Alan Silvestri",
+          "answer": "Forrest Gump"
+        }
+      ]
+    },
+    {
+      "name": "Farge",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Yellow Submarine",
+          "artist": "The Beatles",
+          "answer": "Gul"
+        },
+        {
+          "difficulty": 2,
+          "title": "Mr. Blue Sky",
+          "artist": "Electric Light Orchestra",
+          "answer": "Blå"
+        },
+        {
+          "difficulty": 3,
+          "title": "Smoke on the Water",
+          "artist": "Deep Purple",
+          "answer": "Lilla"
+        },
+        {
+          "difficulty": 4,
+          "title": "Come and Get Your Love",
+          "artist": "Redbone",
+          "answer": "Rød"
+        },
+        {
+          "difficulty": 5,
+          "title": "I Love Rock 'n' Roll",
+          "artist": "Joan Jett & the Blackhearts",
+          "answer": "Svart"
+        }
+      ]
+    },
+    {
+      "name": "Idrett",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Sail",
+          "artist": "AWOLNATION",
+          "answer": "Seiling"
+        },
+        {
+          "difficulty": 2,
+          "title": "Jump",
+          "artist": "",
+          "answer": "Hopp"
+        },
+        {
+          "difficulty": 3,
+          "title": "Stolen Dance",
+          "artist": "Milky Chance",
+          "answer": "Dans"
+        },
+        {
+          "difficulty": 4,
+          "title": "Faded",
+          "artist": "Alan Walker",
+          "answer": "Kappgang"
+        },
+        {
+          "difficulty": 5,
+          "title": "The River",
+          "artist": "Bruce Springsteen",
+          "answer": "Løping"
+        }
+      ]
+    },
+    {
+      "name": "Stat i USA",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Californication",
+          "artist": "Red Hot Chili Peppers",
+          "answer": "California"
+        },
+        {
+          "difficulty": 2,
+          "title": "Englishman in New York",
+          "artist": "Sting",
+          "answer": "New York"
+        },
+        {
+          "difficulty": 3,
+          "title": "Harleys in Hawaii",
+          "artist": "Katy Perry",
+          "answer": "Hawaii"
+        },
+        {
+          "difficulty": 4,
+          "title": "He Could Be the One",
+          "artist": "Hannah Montana",
+          "answer": "Montana"
+        },
+        {
+          "difficulty": 5,
+          "title": "My House",
+          "artist": "Flo Rida",
+          "answer": "Florida"
+        }
+      ]
+    }
+  ]
+}
