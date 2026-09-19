@@ -1,0 +1,412 @@
+:root {
+  --bg: #0d0f14;
+  --card: #161a22;
+  --card-2: #1e2430;
+  --line: #2a3140;
+  --text: #e8ecf3;
+  --muted: #8b93a3;
+  --accent: #1db954;
+  --warn: #e0a83a;
+  --bad: #e3574a;
+  --radius: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+.app {
+  min-height: 100dvh;
+}
+
+.page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 20px 16px 48px;
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin: 0 0 4px;
+}
+
+h2 {
+  font-size: 1.05rem;
+  margin: 24px 0 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+h3 {
+  font-size: 1rem;
+  margin: 0 0 8px;
+}
+
+p {
+  margin: 0 0 8px;
+}
+
+code {
+  background: var(--card-2);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 0.85em;
+  word-break: break-all;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 0.85rem;
+}
+
+/* knapper */
+
+button,
+.btn {
+  font: inherit;
+  color: var(--text);
+  background: var(--card-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 14px;
+  min-height: 44px;
+  cursor: pointer;
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #06210f;
+  font-weight: 600;
+}
+
+button.link,
+a.link {
+  background: none;
+  border: none;
+  color: var(--muted);
+  padding: 8px 0;
+  text-decoration: none;
+  min-height: 0;
+}
+
+button.link:hover,
+a.link:hover {
+  color: var(--text);
+}
+
+input {
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  min-height: 44px;
+  flex: 1;
+  min-width: 0;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.head {
+  margin-bottom: 16px;
+}
+
+.status {
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.status.ok {
+  color: var(--accent);
+}
+.status.warn {
+  color: var(--warn);
+}
+.status.bad {
+  color: var(--bad);
+}
+
+.banner {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--card-2);
+}
+
+.banner.bad {
+  border-left: 3px solid var(--bad);
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-top: 20px;
+}
+
+.panel h2 {
+  margin-top: 0;
+}
+
+.foot {
+  margin-top: 28px;
+  font-size: 0.85rem;
+}
+
+/* forside */
+
+.boards {
+  display: grid;
+  gap: 12px;
+}
+
+.board-card {
+  display: block;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.board-card p {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* lag */
+
+.teams {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+}
+
+.team {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.team-name {
+  flex: 1;
+}
+
+.team-score {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: 1.2rem;
+  min-width: 2ch;
+  text-align: right;
+}
+
+.team-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.team-buttons button {
+  padding: 6px 10px;
+  min-height: 36px;
+}
+
+.scorebar {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 10px 12px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+}
+
+/* brett */
+
+.grid {
+  display: grid;
+  gap: 10px;
+}
+
+@media (min-width: 620px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.cat {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+
+.cells {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  background: var(--card-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.cell.used {
+  background: transparent;
+  color: var(--line);
+  border-style: dashed;
+}
+
+/* avspilling */
+
+.play {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.play-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tag {
+  background: var(--card-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 0;
+  min-height: 34dvh;
+}
+
+.playing-word {
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin: 0;
+}
+
+.elapsed {
+  font-size: 1.1rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  margin: 8px 0 0;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.controls button {
+  flex: 1;
+}
+
+button.big {
+  width: 100%;
+  min-height: 60px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.answer {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.answer-label {
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+
+.answer-text {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 2px 0 8px;
+  color: var(--accent);
+}
+
+.answer-why {
+  color: var(--text);
+}
+
+.answer-song {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.award {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.score-btn {
+  min-height: 52px;
+  font-weight: 600;
+}
+
+.play-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+}

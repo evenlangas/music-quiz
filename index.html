@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d0f14">
+<title>Musikkquiz</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127911;</text></svg>">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<main id="app" class="app"></main>
+<script>
+  window.sdkReady = new Promise(function (resolve) {
+    window.onSpotifyWebPlaybackSDKReady = resolve;
+  });
+</script>
+<script src="https://sdk.scdn.co/spotify-player.js"></script>
+<script type="module" src="./app.js"></script>
+</body>
+</html>
