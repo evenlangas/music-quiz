@@ -236,6 +236,7 @@ function spotifyBox() {
         ${sp.isLoggedIn() ? '<button id="logout">Logg ut</button>' : '<button id="login" class="primary">Logg inn i Spotify</button>'}
         <button id="clear-cache" class="link">Tøm sang-cache</button>
       </div>
+      <p class="muted small">Redirect URI: <code>${esc(sp.redirectUri())}</code></p>
     </div>
   `);
 

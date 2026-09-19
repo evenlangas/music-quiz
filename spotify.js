@@ -40,8 +40,10 @@ function emit() {
 
 /* ---------- konfigurasjon ---------- */
 
+// Alltid mappen med skråstrek på slutten, også om noen åpner index.html direkte.
 export function redirectUri() {
-  return location.origin + location.pathname;
+  const dir = location.pathname.replace(/[^/]*$/, '');
+  return location.origin + dir;
 }
 
 // En egen Client ID i localStorage overstyrer standarden. Nyttig for den som forker appen.
