@@ -2,8 +2,7 @@
 
 Alle tre ligger her som latin-subsett i woff2, hentet fra Google Fonts. De er
 hostet lokalt med vilje: appen skal ikke sende brukerne til en tredjepart for å
-tegne tekst, og i lenkemodus kontakter den da ingen andre enn Spotify-appen på
-telefonen.
+tegne tekst. Spotify er det eneste eksterne appen snakker med.
 
 | Fil | Skrift | Brukes til |
 | --- | --- | --- |

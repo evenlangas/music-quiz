@@ -30,34 +30,15 @@ python -m http.server 5173
 
 ## Koble til Spotify
 
-Appen har to måter å spille på. Velg på forsiden, under **Spotify**.
-
-### Åpne i Spotify-appen (standard)
-
-Et trykk på en rute åpner sangen i Spotify-appen på telefonen. Ingen innlogging,
-ingen gjesteliste, ingen Premium-krav fra oss: Spotify-appen spiller med den kontoen
-brukeren allerede har. Dette er måten Hitster og liknende spill gjør det på, og den
-virker også når lenken er åpnet inne i Messenger eller Instagram.
-
-Game master ser låttittelen i Spotify mens sangen går. Det gjør ingenting, siden
-game master uansett ser fasiten. Legg telefonen med skjermen ned, som ellers.
-
-For at ett trykk skal treffe riktig spor må sangene være slått opp på forhånd, se
-under. Er de ikke det, åpner lenken et søk i Spotify i stedet.
-
-### Spill her i appen
-
-Spiller sangen rett i nettleserfanen, med pause og teller. Da må game master
-logge inn, ha **Spotify Premium**, og stå på gjestelisten til Spotify-appen.
-Krever også en vanlig nettleser; innebygde nettlesere i Messenger og liknende
-kan ikke spille av.
+Sangen spilles rett i nettleserfanen, med pause og teller. Game master må logge
+inn på **Velg brett**-siden, ha **Spotify Premium**, og stå på gjestelisten til
+Spotify-appen. Det krever også en vanlig nettleser; innebygde nettlesere i
+Messenger og liknende kan ikke spille av.
 
 Appen finner hver sang med et søk mot Spotify og husker treffet i nettleseren.
 Vil du låse en sang til et bestemt opptak, legg til feltet `uri` på sangen.
 
 ### Hvem kan logge inn
-
-Dette gjelder bare "spill her i appen". Lenkemodus krever ingen innlogging.
 
 Spotify-appen står i utviklingsmodus. Da kan bare personer på gjestelisten logge
 inn. Legg til nye game mastere slik:
@@ -78,7 +59,7 @@ legge inn sin egen Client ID, se under.
 Spotify-appen står i utviklingsmodus, og kontoen som logget inn står ikke på
 gjestelisten. Legg personen til under **Settings → User Management**, som beskrevet
 over. Vedkommende må logge ut og inn igjen etterpå. Er de fem plassene brukt opp,
-er egen Spotify-app eneste vei videre.
+er egen Spotify-app eneste vei videre inntil appen får utvidet kvote.
 
 **«Cannot perform operation; no list was loaded»**
 Kommer fra Spotify-avspilleren når appen ber om pause eller stopp før en sang er
@@ -86,7 +67,7 @@ lastet. Den er ufarlig, og appen viser den ikke lenger som en feil.
 
 **Ingen lyd når lenken åpnes fra Messenger, Instagram eller Snapchat**
 Innebygde nettlesere i andre apper kan ikke spille av Spotify. Åpne siden i Safari
-eller Chrome. Appen viser en beskjed om dette når den kjenner igjen en slik nettleser.
+eller Chrome. Appen viser en beskjed når den kjenner igjen en slik nettleser.
 
 **«Avspilling krever Spotify Premium»**
 Web Playback SDK spiller bare av for Premium-kontoer.
@@ -107,8 +88,8 @@ Appen bruker PKCE. Du trenger ikke Client Secret.
 ## Slå opp sangene på forhånd
 
 `tools/resolve-uris.mjs` søker opp hver sang i brettene én gang og lagrer treffet i
-`boards/uris.json`. Da slipper appen å søke mens quizen går: ingen innlogging, ingen
-kvote, og lenkemodus åpner riktig spor med ett trykk.
+`boards/uris.json`. Da slipper appen å søke mens quizen går: ingen kvote brukes,
+og sporet blir det samme hver gang.
 
 Du trenger Client ID og Client Secret fra
 https://developer.spotify.com/dashboard. Secret hører hjemme i terminalen, aldri i
@@ -170,7 +151,7 @@ Formatet:
 | `answer` | ja | Fasit. Vises for game master. |
 | `why` | nei | Forklaring på hvorfor svaret er riktig. |
 | `uri` | nei | Låser sangen til ett bestemt Spotify-spor. Vinner over `boards/uris.json`. |
-| `startMs` | nei | Starter sangen et stykke uti. Standard er 0. Virker bare i "spill her i appen"; en lenke til Spotify starter alltid på null. |
+| `startMs` | nei | Starter sangen et stykke uti. Standard er 0. |
 
 Et brett bør ha åtte kategorier med fem sanger hver, en av hver vanskelighetsgrad.
 
@@ -182,7 +163,8 @@ Et brett bør ha åtte kategorier med fem sanger hver, en av hver vanskelighetsg
 
 ## Utseende
 
-Forsiden er også landingssiden: den forklarer spillet før den viser brettene.
+Forsiden er landingssiden: den forklarer spillet, og «Start en quiz» tar deg
+videre til brettvalget.
 
 Den visuelle profilen ligger i `styles.css` som CSS-variabler.
 

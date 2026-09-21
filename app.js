@@ -78,6 +78,7 @@ function route() {
   if (parts[0] === 'b' && parts.length === 2) {
     return { view: 'board', boardId: parts[1] };
   }
+  if (parts[0] === 'brett') return { view: 'brett' };
   return { view: 'home' };
 }
 
@@ -90,6 +91,7 @@ function render() {
     state.playing = null;
   }
   if (r.view === 'board') return renderBoard(r);
+  if (r.view === 'brett') return renderBrett();
   return renderHome();
 }
 
@@ -105,7 +107,6 @@ function mark(size) {
 }
 
 function statusLine() {
-  if (sp.getMode() === 'lenke') return { text: 'Åpner sangene i Spotify-appen', cls: 'ok' };
   if (!sp.getClientId()) return { text: 'Spotify er ikke satt opp', cls: 'warn' };
   if (!sp.isLoggedIn()) return { text: 'Ikke logget inn i Spotify', cls: 'warn' };
   const issue = sp.getAccountIssue();
@@ -118,7 +119,6 @@ function statusLine() {
 
 // Advarsel om innebygd nettleser, for eksempel lenker åpnet i Messenger.
 function browserWarning() {
-  if (sp.getMode() === 'lenke') return '';
   const hint = sp.inAppBrowserHint();
   return hint ? `<p class="banner warn">${esc(hint)}</p>` : '';
 }
@@ -200,9 +200,8 @@ function wireTeamPanel(root) {
 
 /* ---------- forside ---------- */
 
-function renderHome() {
-  const s = statusLine();
-  const boards = state.boards
+function boardCards() {
+  return state.boards
     .map(
       (b) => `
       <a class="board-card" href="#/b/${b.id}">
@@ -212,15 +211,18 @@ function renderHome() {
       </a>`
     )
     .join('');
+}
 
+function renderHome() {
+  const s = statusLine();
   const antallBrett = state.boards.length;
   const antallSanger = state.boards.reduce(
     (n, b) => n + b.categories.reduce((m, c) => m + c.songs.length, 0),
     0
   );
   const fakta = antallBrett
-    ? `Ingen innlogging &middot; ${antallBrett} brett, ${antallSanger} sanger`
-    : 'Ingen innlogging';
+    ? `${antallBrett} brett &middot; ${antallSanger} sanger &middot; gratis`
+    : 'Gratis, og uten annonser';
 
   const view = el(`
     <div class="page">
@@ -234,7 +236,7 @@ function renderHome() {
         <h1 class="hero-title">Ordet gjemmer seg i låta.</h1>
         <p class="hero-sub">En musikkquiz for rundt bordet. Åtte kategorier, fem sanger i hver. Svaret ligger i tittelen, artisten, teksten &mdash; eller i selve lyden.</p>
         <div class="hero-cta">
-          <button class="btn primary" id="til-brett">Start en quiz</button>
+          <a class="btn primary" href="#/brett">Start en quiz</a>
           <button class="btn" id="til-eksempel">Se et eksempel</button>
         </div>
         <p class="facts">${fakta}</p>
@@ -242,13 +244,6 @@ function renderHome() {
 
       ${browserWarning()}
       ${state.error ? `<p class="banner bad">${esc(state.error)}</p>` : ''}
-
-      <section id="brett">
-        <h2>Velg brett</h2>
-        <div class="boards">${boards || '<p class="muted">Laster brett...</p>'}</div>
-      </section>
-
-      ${teamPanel()}
 
       <section>
         <h2>Slik spiller dere</h2>
@@ -290,11 +285,6 @@ function renderHome() {
         </div>
       </section>
 
-      <section class="panel">
-        <h2>Spotify</h2>
-        <div id="spotify-box"></div>
-      </section>
-
       <footer class="foot">
         ${mark(18)}
         <span>Gratis &middot; Musikken kommer fra Spotify</span>
@@ -302,9 +292,6 @@ function renderHome() {
     </div>
   `);
 
-  view.querySelector('#til-brett').addEventListener('click', () => {
-    view.querySelector('#brett').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
   view.querySelector('#til-eksempel').addEventListener('click', () => {
     view.querySelector('#eksempel').scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
@@ -322,6 +309,36 @@ function renderHome() {
     );
   });
 
+  app.replaceChildren(view);
+}
+
+/* ---------- velg brett ---------- */
+
+function renderBrett() {
+  const s = statusLine();
+  const cards = boardCards();
+  const view = el(`
+    <div class="page">
+      <header class="brand">
+        ${mark(22)}
+        <span class="brand-name">Gehør</span>
+        <a class="link" href="#/">Forsiden</a>
+      </header>
+      <header class="head">
+        <h1>Velg brett</h1>
+        <p class="status ${s.cls}">${esc(s.text)}</p>
+      </header>
+      ${browserWarning()}
+      ${state.error ? `<p class="banner bad">${esc(state.error)}</p>` : ''}
+      <div class="boards">${cards || '<p class="muted">Laster brett...</p>'}</div>
+      ${teamPanel()}
+      <section class="panel">
+        <h2>Spotify</h2>
+        <div id="spotify-box"></div>
+      </section>
+    </div>
+  `);
+
   wireTeamPanel(view);
   view.querySelector('#spotify-box').appendChild(spotifyBox());
   app.replaceChildren(view);
@@ -337,38 +354,16 @@ function spotifyBox() {
     `);
   }
 
-  const mode = sp.getMode();
   const box = el(`
     <div>
-      <div class="modes">
-        <button data-mode="lenke" class="mode-btn${mode === 'lenke' ? ' on' : ''}">I Spotify-appen</button>
-        <button data-mode="sdk" class="mode-btn${mode === 'sdk' ? ' on' : ''}">Her i appen</button>
-      </div>
-      <p class="muted small">${
-        mode === 'lenke'
-          ? 'Trykk på en rute, så åpnes sangen i Spotify-appen. Ingen innlogging. Virker for alle, også uten Premium-konto hos oss.'
-          : 'Spiller sangen rett i denne fanen, med pause og teller. Krever innlogging, Spotify Premium og plass på gjestelisten til appen.'
-      }</p>
-      ${
-        mode === 'sdk'
-          ? `<div class="row">
-               ${sp.isLoggedIn() ? '<button id="logout">Logg ut</button>' : '<button id="login" class="primary">Logg inn i Spotify</button>'}
-             </div>
-             <p class="muted small">Redirect URI: <code>${esc(sp.redirectUri())}</code></p>`
-          : ''
-      }
+      <p class="muted small">Sangene spilles rett i denne fanen. Game master må være logget inn og ha Spotify Premium.</p>
       <div class="row">
+        ${sp.isLoggedIn() ? '<button id="logout">Logg ut</button>' : '<button id="login" class="primary">Logg inn i Spotify</button>'}
         <button id="clear-cache" class="link">Tøm sang-cache</button>
       </div>
+      <p class="muted small">Redirect URI: <code>${esc(sp.redirectUri())}</code></p>
     </div>
   `);
-
-  box.querySelectorAll('[data-mode]').forEach((b) =>
-    b.addEventListener('click', () => {
-      sp.setMode(b.dataset.mode);
-      render();
-    })
-  );
 
   const login = box.querySelector('#login');
   if (login) {
@@ -424,7 +419,7 @@ function renderBoard(r) {
       <header class="brand">
         ${mark(22)}
         <span class="brand-name">Gehør</span>
-        <a class="link" href="#/">Alle brett</a>
+        <a class="link" href="#/brett">Alle brett</a>
       </header>
       <header class="head">
         <h1>${esc(board.name)}</h1>
@@ -441,9 +436,7 @@ function renderBoard(r) {
   `);
 
   // Aktiver lyd mens vi fortsatt er inne i trykket. iOS Safari krever det.
-  if (sp.getMode() === 'sdk') {
-    view.querySelectorAll('.cell').forEach((a) => a.addEventListener('click', () => sp.activate()));
-  }
+  view.querySelectorAll('.cell').forEach((a) => a.addEventListener('click', () => sp.activate()));
 
   view.querySelector('#reset-board').addEventListener('click', () => {
     if (!confirm('Merke alle ruter som ubrukte?')) return;
@@ -472,18 +465,9 @@ function renderPlay(r) {
 
   const fresh = !state.playing || state.playing.song !== song;
   if (fresh) {
-    const link = sp.getMode() === 'lenke';
-    state.playing = {
-      song,
-      cat,
-      board,
-      status: link ? 'klar' : 'starter',
-      revealed: false,
-      startedAt: Date.now(),
-      paused: false
-    };
+    state.playing = { song, cat, board, status: 'starter', revealed: false, startedAt: Date.now(), paused: false };
     markUsed(board.id, r.cat, song.difficulty, true);
-    if (!link) startPlayback();
+    startPlayback();
   }
   drawPlay();
 }
@@ -539,31 +523,14 @@ function drawPlay() {
         .join('')
     : '<p class="muted">Legg til lag på brettsiden for å gi poeng.</p>';
 
-  const linkMode = sp.getMode() === 'lenke';
-  const link = linkMode ? sp.openLink(p.song) : null;
   const started = p.status === 'spiller';
-
-  const linkStage = link
-    ? `<a class="btn big" id="open-spotify" href="${esc(link.url)}" target="_blank" rel="noopener">${
-        link.exact ? 'Åpne i Spotify' : 'Søk i Spotify'
-      }</a>
-       <p class="playing-word" id="play-word"${started ? '' : ' hidden'}>SPILLER</p>
-       <p class="elapsed" id="elapsed"${started ? '' : ' hidden'}>0:00</p>
-       ${
-         link.exact
-           ? ''
-           : '<p class="muted small">Denne sangen er ikke slått opp enda, så lenka åpner et søk i Spotify. Kjør <code>tools/resolve-uris.mjs</code> for å få ett trykk.</p>'
-       }`
-    : '';
 
   const status =
     p.status === 'feil'
       ? `<p class="banner bad">${esc(p.error || 'Ukjent feil')}</p>
          ${browserWarning()}
          <button id="retry">Prøv igjen</button>`
-      : linkMode
-        ? linkStage
-        : `<p class="playing-word">${started ? (p.paused ? 'PAUSE' : 'SPILLER') : 'STARTER'}</p>
+      : `<p class="playing-word">${started ? (p.paused ? 'PAUSE' : 'SPILLER') : 'STARTER'}</p>
          <p class="elapsed" id="elapsed">0:00</p>`;
 
   const view = el(`
@@ -573,14 +540,10 @@ function drawPlay() {
         <span class="tag">${esc(p.cat.name)} ${p.song.difficulty}</span>
       </header>
       <div class="stage">${status}</div>
-      ${
-        linkMode
-          ? ''
-          : `<div class="controls">
+      <div class="controls">
         <button id="toggle">${p.paused ? 'Fortsett' : 'Pause'}</button>
         <button id="restart">Start på nytt</button>
-      </div>`
-      }
+      </div>
       ${answerBlock}
       <div class="award">${p.revealed ? teamButtons : ''}</div>
       <div class="play-foot">
@@ -597,24 +560,6 @@ function drawPlay() {
       drawPlay();
     });
   }
-  // Lenka skal få lov til å navigere. Derfor ingen ny opptegning her, bare
-  // teller og tekst som skrus på i DOM-en som allerede står der.
-  const open = view.querySelector('#open-spotify');
-  if (open) {
-    open.addEventListener('click', () => {
-      p.status = 'spiller';
-      p.startedAt = Date.now();
-      const word = view.querySelector('#play-word');
-      const elapsed = view.querySelector('#elapsed');
-      if (word) word.hidden = false;
-      if (elapsed) {
-        elapsed.hidden = false;
-        elapsed.textContent = '0:00';
-      }
-      startTick(p);
-    });
-  }
-
   const toggle = view.querySelector('#toggle');
   if (toggle) toggle.addEventListener('click', () => {
     if (p.paused) {
@@ -704,7 +649,7 @@ async function main() {
     state.error = 'Klarte ikke å laste brettene. Kjør appen fra en webserver, ikke som fil.';
   }
   render();
-  if (sp.getMode() === 'sdk' && sp.isLoggedIn()) sp.initPlayer().catch(() => {});
+  if (sp.isLoggedIn()) sp.initPlayer().catch(() => {});
 }
 
 main();
