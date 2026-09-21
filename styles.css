@@ -161,6 +161,10 @@ input {
   border-left: 3px solid var(--bad);
 }
 
+.banner.warn {
+  border-left: 3px solid var(--warn);
+}
+
 .panel {
   background: var(--card);
   border: 1px solid var(--line);
@@ -354,11 +358,39 @@ input {
   flex: 1;
 }
 
-button.big {
+.big {
   width: 100%;
   min-height: 60px;
   font-size: 1.1rem;
   font-weight: 600;
+}
+
+a.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #06210f;
+}
+
+/* valg av avspillingsmodus */
+
+.modes {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.mode-btn {
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+.mode-btn.on {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .answer {

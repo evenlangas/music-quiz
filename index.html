@@ -11,11 +11,12 @@
 <body>
 <main id="app" class="app"></main>
 <script>
+  // Selve avspillerskriptet hentes først når noen faktisk skal spille i denne
+  // fanen. I lenkemodus snakker appen ikke med Spotify i det hele tatt.
   window.sdkReady = new Promise(function (resolve) {
     window.onSpotifyWebPlaybackSDKReady = resolve;
   });
 </script>
-<script src="https://sdk.scdn.co/spotify-player.js"></script>
 <script type="module" src="./app.js"></script>
 </body>
 </html>
