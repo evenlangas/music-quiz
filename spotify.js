@@ -393,7 +393,7 @@ export async function initPlayer() {
   }
 
   player = new window.Spotify.Player({
-    name: 'Musikkquiz',
+    name: 'Gehør',
     volume: 0.8,
     getOAuthToken: (cb) => {
       getAccessToken()

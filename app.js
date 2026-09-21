@@ -95,6 +95,15 @@ function render() {
 
 /* ---------- felles deler ---------- */
 
+// Merket: en ø som også er en plate. Fargene ligger i styles.css.
+function mark(size) {
+  return `<svg class="mark" viewBox="0 0 100 100" width="${size}" height="${size}" aria-hidden="true" focusable="false">
+      <circle class="ring" cx="50" cy="50" r="42" fill="none" stroke-width="6"></circle>
+      <line class="slash" x1="16" y1="84" x2="84" y2="16" stroke-width="8" stroke-linecap="round"></line>
+      <circle class="label" cx="50" cy="50" r="11" stroke-width="4"></circle>
+    </svg>`;
+}
+
 function statusLine() {
   if (sp.getMode() === 'lenke') return { text: 'Åpner sangene i Spotify-appen', cls: 'ok' };
   if (!sp.getClientId()) return { text: 'Spotify er ikke satt opp', cls: 'warn' };
@@ -204,26 +213,114 @@ function renderHome() {
     )
     .join('');
 
+  const antallBrett = state.boards.length;
+  const antallSanger = state.boards.reduce(
+    (n, b) => n + b.categories.reduce((m, c) => m + c.songs.length, 0),
+    0
+  );
+  const fakta = antallBrett
+    ? `Ingen innlogging &middot; ${antallBrett} brett, ${antallSanger} sanger`
+    : 'Ingen innlogging';
+
   const view = el(`
     <div class="page">
-      <header class="head">
-        <h1>Musikkquiz</h1>
-        <p class="status ${s.cls}">${esc(s.text)}</p>
+      <header class="brand">
+        ${mark(26)}
+        <span class="brand-name">Gehør</span>
+        <span class="status ${s.cls}">${esc(s.text)}</span>
       </header>
+
+      <section class="hero">
+        <h1 class="hero-title">Ordet gjemmer seg i låta.</h1>
+        <p class="hero-sub">En musikkquiz for rundt bordet. Åtte kategorier, fem sanger i hver. Svaret ligger i tittelen, artisten, teksten &mdash; eller i selve lyden.</p>
+        <div class="hero-cta">
+          <button class="btn primary" id="til-brett">Start en quiz</button>
+          <button class="btn" id="til-eksempel">Se et eksempel</button>
+        </div>
+        <p class="facts">${fakta}</p>
+      </section>
+
       ${browserWarning()}
       ${state.error ? `<p class="banner bad">${esc(state.error)}</p>` : ''}
-      <section>
+
+      <section id="brett">
         <h2>Velg brett</h2>
         <div class="boards">${boards || '<p class="muted">Laster brett...</p>'}</div>
       </section>
+
       ${teamPanel()}
+
+      <section>
+        <h2>Slik spiller dere</h2>
+        <ol class="steps">
+          <li class="step">
+            <span class="step-n">1</span>
+            <div>
+              <h3>Laget velger en rute</h3>
+              <p>For eksempel Dyr 1. Tallet er vanskelighetsgraden, og det samme tallet er poengsummen.</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step-n">2</span>
+            <div>
+              <h3>Sangen spiller</h3>
+              <p>Legg telefonen med skjermen ned.</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step-n">3</span>
+            <div>
+              <h3>Første lyd gjetter</h3>
+              <p>Hvert lag har sin egen lyd. Første lag som lager sin, får fem sekunder. Feil svar gir fem sekunders sperre.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="panel" id="eksempel">
+        <h2>Et eksempel</h2>
+        <div class="demo-tags">
+          <span class="demo-tag">Dyr</span>
+          <span class="cell d1" style="width: 32px; aspect-ratio: auto; height: 32px; font-size: 0.95rem;">1</span>
+        </div>
+        <p class="demo-song">Eye of the Tiger</p>
+        <p class="demo-artist">Survivor</p>
+        <div id="demo-svar">
+          <button class="big" id="demo-vis">Vis fasit</button>
+        </div>
+      </section>
+
       <section class="panel">
         <h2>Spotify</h2>
         <div id="spotify-box"></div>
       </section>
-      <footer class="foot muted">Legg til nye brett i mappen <code>boards/</code>.</footer>
+
+      <footer class="foot">
+        ${mark(18)}
+        <span>Gratis &middot; Musikken kommer fra Spotify</span>
+      </footer>
     </div>
   `);
+
+  view.querySelector('#til-brett').addEventListener('click', () => {
+    view.querySelector('#brett').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  view.querySelector('#til-eksempel').addEventListener('click', () => {
+    view.querySelector('#eksempel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  const demoVis = view.querySelector('#demo-vis');
+  demoVis.addEventListener('click', () => {
+    view.querySelector('#demo-svar').replaceChildren(
+      el(`
+        <div class="answer" style="padding: 0; background: none; border: none;">
+          <p class="answer-label">Fasit</p>
+          <p class="answer-text">Tiger</p>
+          <p class="answer-why">Står rett i tittelen.</p>
+          <p class="answer-song">Ett poeng til laget som sa det først.</p>
+        </div>
+      `)
+    );
+  });
 
   wireTeamPanel(view);
   view.querySelector('#spotify-box').appendChild(spotifyBox());
@@ -244,8 +341,8 @@ function spotifyBox() {
   const box = el(`
     <div>
       <div class="modes">
-        <button data-mode="lenke" class="mode-btn${mode === 'lenke' ? ' on' : ''}">Åpne i Spotify-appen</button>
-        <button data-mode="sdk" class="mode-btn${mode === 'sdk' ? ' on' : ''}">Spill her i appen</button>
+        <button data-mode="lenke" class="mode-btn${mode === 'lenke' ? ' on' : ''}">I Spotify-appen</button>
+        <button data-mode="sdk" class="mode-btn${mode === 'sdk' ? ' on' : ''}">Her i appen</button>
       </div>
       <p class="muted small">${
         mode === 'lenke'
@@ -307,7 +404,7 @@ function renderBoard(r) {
         .sort((a, b) => a.difficulty - b.difficulty)
         .map((song) => {
           const used = isUsed(board.id, ci, song.difficulty);
-          return `<a class="cell${used ? ' used' : ''}" href="#/b/${board.id}/${ci}/${song.difficulty}">${song.difficulty}</a>`;
+          return `<a class="cell d${song.difficulty}${used ? ' used' : ''}" href="#/b/${board.id}/${ci}/${song.difficulty}">${song.difficulty}</a>`;
         })
         .join('');
       return `<div class="cat"><h3>${esc(cat.name)}</h3><div class="cells">${cells}</div></div>`;
@@ -317,15 +414,19 @@ function renderBoard(r) {
   const teams = getTeams();
   const scores = teams.length
     ? `<div class="scorebar">${teams
-        .map((t) => `<span><b>${esc(t.name)}</b> ${t.score}</span>`)
+        .map((t) => `<span><b>${esc(t.name)}</b><i>${t.score}</i></span>`)
         .join('')}</div>`
     : '';
 
   const s = statusLine();
   const view = el(`
     <div class="page">
+      <header class="brand">
+        ${mark(22)}
+        <span class="brand-name">Gehør</span>
+        <a class="link" href="#/">Alle brett</a>
+      </header>
       <header class="head">
-        <a class="link" href="#/">&larr; Brett</a>
         <h1>${esc(board.name)}</h1>
         <p class="status ${s.cls}">${esc(s.text)}</p>
       </header>
