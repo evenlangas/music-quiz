@@ -161,6 +161,10 @@ input {
   border-left: 3px solid var(--bad);
 }
 
+.banner.warn {
+  border-left: 3px solid var(--warn);
+}
+
 .panel {
   background: var(--card);
   border: 1px solid var(--line);

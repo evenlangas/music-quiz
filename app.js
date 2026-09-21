@@ -98,10 +98,18 @@ function render() {
 function statusLine() {
   if (!sp.getClientId()) return { text: 'Spotify er ikke satt opp', cls: 'warn' };
   if (!sp.isLoggedIn()) return { text: 'Ikke logget inn i Spotify', cls: 'warn' };
+  const issue = sp.getAccountIssue();
+  if (issue) return { text: issue, cls: 'bad' };
   const s = sp.getPlayerState();
   if (s === 'ready') return { text: 'Spotify er klar', cls: 'ok' };
   if (s === 'error') return { text: 'Spotify-feil: ' + sp.getPlayerError(), cls: 'bad' };
   return { text: 'Kobler til Spotify', cls: 'warn' };
+}
+
+// Advarsel om innebygd nettleser, for eksempel lenker åpnet i Messenger.
+function browserWarning() {
+  const hint = sp.inAppBrowserHint();
+  return hint ? `<p class="banner warn">${esc(hint)}</p>` : '';
 }
 
 function teamPanel() {
@@ -200,6 +208,7 @@ function renderHome() {
         <h1>Musikkquiz</h1>
         <p class="status ${s.cls}">${esc(s.text)}</p>
       </header>
+      ${browserWarning()}
       ${state.error ? `<p class="banner bad">${esc(state.error)}</p>` : ''}
       <section>
         <h2>Velg brett</h2>
@@ -296,6 +305,7 @@ function renderBoard(r) {
         <h1>${esc(board.name)}</h1>
         <p class="status ${s.cls}">${esc(s.text)}</p>
       </header>
+      ${browserWarning()}
       ${scores}
       <div class="grid">${grid}</div>
       <section class="panel">
@@ -392,6 +402,7 @@ function drawPlay() {
   const status =
     p.status === 'feil'
       ? `<p class="banner bad">${esc(p.error || 'Ukjent feil')}</p>
+         ${browserWarning()}
          <button id="retry">Prøv igjen</button>`
       : `<p class="playing-word">${p.status === 'spiller' ? (p.paused ? 'PAUSE' : 'SPILLER') : 'STARTER'}</p>
          <p class="elapsed" id="elapsed">0:00</p>`;
@@ -499,7 +510,7 @@ async function main() {
     state.error = 'Klarte ikke å laste brettene. Kjør appen fra en webserver, ikke som fil.';
   }
   render();
-  if (sp.isLoggedIn()) sp.initPlayer();
+  if (sp.isLoggedIn()) sp.initPlayer().catch(() => {});
 }
 
 main();

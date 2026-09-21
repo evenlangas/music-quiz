@@ -27,6 +27,8 @@ let player = null;
 let deviceId = null;
 let playerState = 'off'; // off | connecting | ready | error
 let playerError = '';
+let accountIssue = ''; // kontoen mangler tilgang eller Premium
+let hasTrack = false; // har avspilleren fått en sang fra oss?
 const listeners = new Set();
 
 export function onChange(fn) {
@@ -44,6 +46,17 @@ function emit() {
 export function redirectUri() {
   const dir = location.pathname.replace(/[^/]*$/, '');
   return location.origin + dir;
+}
+
+// Messenger, Instagram og liknende åpner lenker i en innebygd nettleser.
+// Den har ikke det som skal til for å spille av Spotify, særlig på iPhone.
+export function inAppBrowserHint() {
+  const ua = navigator.userAgent || '';
+  if (!/FBAN|FBAV|FB_IAB|Instagram|Snapchat|Line\/|MicroMessenger|TikTok|Twitter/i.test(ua)) return '';
+  const ios = /iPhone|iPad|iPod/i.test(ua);
+  return ios
+    ? 'Du har åpnet appen inne i en annen app. Spotify kan ikke spille av her. Trykk på ••• øverst til høyre og velg «Åpne i Safari».'
+    : 'Du har åpnet appen inne i en annen app. Spotify kan ikke spille av her. Åpne siden i en vanlig nettleser.';
 }
 
 // En egen Client ID i localStorage overstyrer standarden. Nyttig for den som forker appen.
@@ -84,6 +97,9 @@ export function logout() {
   player = null;
   deviceId = null;
   playerState = 'off';
+  playerError = '';
+  accountIssue = '';
+  hasTrack = false;
   emit();
 }
 
@@ -180,6 +196,51 @@ export async function handleRedirect() {
   return null;
 }
 
+/* ---------- feilmeldinger ---------- */
+
+const NOT_REGISTERED =
+  'Spotify-kontoen din er ikke lagt til i appen enda. Send e-postadressen du bruker på Spotify til den som eier appen, så blir du lagt inn under Settings og User Management på developer.spotify.com/dashboard.';
+const NEEDS_PREMIUM =
+  'Avspilling i nettleseren krever Spotify Premium. Kontoen du er logget inn med har ikke Premium.';
+
+// Kontofeil gjelder hele økten, så vi husker dem og viser dem i statuslinjen.
+export function getAccountIssue() {
+  return accountIssue;
+}
+
+function setAccountIssue(msg) {
+  if (accountIssue === msg) return;
+  accountIssue = msg;
+  emit();
+}
+
+// Gir en forklarende tekst for feil vi kjenner igjen, ellers tom streng.
+function knownError(text) {
+  const t = String(text || '');
+  if (/not registered/i.test(t)) {
+    setAccountIssue(NOT_REGISTERED);
+    return NOT_REGISTERED;
+  }
+  if (/premium/i.test(t)) {
+    setAccountIssue(NEEDS_PREMIUM);
+    return NEEDS_PREMIUM;
+  }
+  return '';
+}
+
+function apiError(status, path, raw) {
+  const known = knownError(raw);
+  if (known) return known;
+  const where = path.split('?')[0];
+  if (status === 401) return 'Innloggingen i Spotify gikk ut. Logg inn på nytt på forsiden.';
+  if (status === 429) return 'Spotify ber oss vente litt. Prøv igjen om noen sekunder.';
+  if (status === 404 && where.indexOf('/me/player') === 0) {
+    return 'Spotify mistet avspilleren. Last siden på nytt.';
+  }
+  if (status >= 500) return 'Spotify har trøbbel akkurat nå (' + status + '). Prøv igjen.';
+  return 'Spotify svarte ' + status + ' på ' + where + ': ' + raw;
+}
+
 /* ---------- web api ---------- */
 
 async function api(path, options) {
@@ -202,12 +263,12 @@ async function api(path, options) {
     } catch (e) {
       // Spotify svarer noen ganger med ren tekst eller HTML, særlig ved 5xx.
       const snippet = text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 120);
-      throw new Error('Spotify svarte ' + res.status + ' på ' + path.split('?')[0] + ': ' + snippet);
+      throw new Error(apiError(res.status, path, snippet));
     }
   }
   if (!res.ok) {
     const msg = (data && data.error && data.error.message) || String(res.status);
-    throw new Error('Spotify ' + res.status + ' på ' + path.split('?')[0] + ': ' + msg);
+    throw new Error(apiError(res.status, path, msg));
   }
   return data;
 }
@@ -222,11 +283,40 @@ export function getPlayerError() {
   return playerError;
 }
 
+// Skriptet fra Spotify kan bli blokkert, for eksempel i en innebygd nettleser.
+// Da venter vi ikke i det uendelige, og vi venter ikke en gang til neste gang heller.
+let sdkFailed = false;
+if (window.sdkReady) {
+  window.sdkReady.then(() => {
+    sdkFailed = false;
+  });
+}
+
+function waitForSdk() {
+  const failed = new Error('Spotify-avspilleren ble ikke lastet.');
+  if (sdkFailed) return Promise.reject(failed);
+  return Promise.race([
+    window.sdkReady,
+    new Promise((resolve, reject) => setTimeout(() => reject(failed), 15000))
+  ]).catch((e) => {
+    sdkFailed = true;
+    throw e;
+  });
+}
+
 export async function initPlayer() {
   if (player || !isLoggedIn()) return;
   playerState = 'connecting';
+  playerError = '';
   emit();
-  await window.sdkReady;
+  try {
+    await waitForSdk();
+  } catch (e) {
+    playerState = 'error';
+    playerError = inAppBrowserHint() || e.message + ' Last siden på nytt.';
+    emit();
+    return;
+  }
 
   player = new window.Spotify.Player({
     name: 'Musikkquiz',
@@ -245,21 +335,33 @@ export async function initPlayer() {
     emit();
   });
   player.addListener('not_ready', () => {
+    deviceId = null;
+    hasTrack = false;
     playerState = 'connecting';
     emit();
   });
-  ['initialization_error', 'authentication_error', 'account_error', 'playback_error'].forEach((ev) => {
+  ['initialization_error', 'authentication_error', 'account_error'].forEach((ev) => {
     player.addListener(ev, (data) => {
+      const raw = (data && data.message) || ev;
       playerState = 'error';
-      playerError = (data && data.message) || ev;
+      playerError = knownError(raw) || (ev === 'initialization_error' ? inAppBrowserHint() : '') || raw;
       emit();
     });
+  });
+
+  // playback_error er som regel forbigående. "no list was loaded" kommer bare av at
+  // vi ba om pause eller stopp før noen sang var lastet, og skal ikke se ut som en feil.
+  player.addListener('playback_error', (data) => {
+    const raw = (data && data.message) || 'playback_error';
+    if (/no list was loaded|no list is loaded/i.test(raw)) return;
+    knownError(raw);
+    console.warn('Spotify playback_error:', raw);
   });
 
   const ok = await player.connect();
   if (!ok) {
     playerState = 'error';
-    playerError = 'Nettleseren klarte ikke å koble til Spotify.';
+    playerError = inAppBrowserHint() || 'Nettleseren klarte ikke å koble til Spotify.';
     emit();
   }
 }
@@ -323,30 +425,53 @@ export async function findTrack(song) {
 export async function playSong(song) {
   if (!getClientId()) throw new Error('Appen mangler Spotify Client ID.');
   if (!isLoggedIn()) throw new Error('Logg inn i Spotify på forsiden.');
+  if (accountIssue) throw new Error(accountIssue);
   if (playerState !== 'ready') await initPlayer();
   for (let i = 0; i < 40 && !deviceId; i++) {
+    if (playerState === 'error') break;
     await new Promise((r) => setTimeout(r, 250));
   }
-  if (!deviceId) throw new Error('Avspilleren ble ikke klar. Last siden på nytt.');
+  if (!deviceId) {
+    throw new Error(
+      playerError || inAppBrowserHint() || 'Avspilleren ble ikke klar. Last siden på nytt.'
+    );
+  }
   const track = await findTrack(song);
   await api('/me/player/play?device_id=' + deviceId, {
     method: 'PUT',
     body: JSON.stringify({ uris: [track.uri], position_ms: song.startMs || 0 })
   });
+  hasTrack = true;
   return track.label;
 }
 
+// Pause, fortsett og stopp gir "no list was loaded" hvis ingen sang er lastet.
+// Vi hopper over kallet i stedet, og svelger feil som likevel skulle dukke opp.
 export async function pause() {
-  if (player) await player.pause();
+  if (!player || !hasTrack) return;
+  try {
+    await player.pause();
+  } catch (e) {
+    /* ingenting spiller */
+  }
 }
 
 export async function resume() {
-  if (player) await player.resume();
+  if (!player || !hasTrack) return;
+  try {
+    await player.resume();
+  } catch (e) {
+    /* ingenting spiller */
+  }
 }
 
 export async function stop() {
-  if (player) {
+  if (!player || !hasTrack) return;
+  hasTrack = false;
+  try {
     await player.pause();
     await player.seek(0);
+  } catch (e) {
+    /* ingenting spiller */
   }
 }

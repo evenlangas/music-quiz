@@ -43,6 +43,24 @@ inn, maks 25. Legg til nye game mastere slik:
 2. Trykk **Settings** og så **User Management**.
 3. Skriv inn navn og e-postadressen personen bruker på Spotify.
 
+### Vanlige feil
+
+**«The user is not registered for this application» (403)**
+Spotify-appen står i utviklingsmodus, og kontoen som logget inn står ikke på
+gjestelisten. Legg personen til under **Settings → User Management**, som beskrevet
+over. Vedkommende må logge ut og inn igjen etterpå.
+
+**«Cannot perform operation; no list was loaded»**
+Kommer fra Spotify-avspilleren når appen ber om pause eller stopp før en sang er
+lastet. Den er ufarlig, og appen viser den ikke lenger som en feil.
+
+**Ingen lyd når lenken åpnes fra Messenger, Instagram eller Snapchat**
+Innebygde nettlesere i andre apper kan ikke spille av Spotify. Åpne siden i Safari
+eller Chrome. Appen viser en beskjed om dette når den kjenner igjen en slik nettleser.
+
+**«Avspilling krever Spotify Premium»**
+Web Playback SDK spiller bare av for Premium-kontoer.
+
 ### Forke appen med egen Spotify-app
 
 Client ID ligger i `spotify.js` som `DEFAULT_CLIENT_ID`. Den er ikke hemmelig.
