@@ -37,18 +37,25 @@ Vil du låse en sang til et bestemt opptak, legg til feltet `uri` på sangen.
 ### Hvem kan logge inn
 
 Spotify-appen står i utviklingsmodus. Da kan bare personer på gjestelisten logge
-inn, maks 25. Legg til nye game mastere slik:
+inn. Legg til nye game mastere slik:
 
 1. Gå til https://developer.spotify.com/dashboard og åpne appen.
 2. Trykk **Settings** og så **User Management**.
 3. Skriv inn navn og e-postadressen personen bruker på Spotify.
+
+Spotify strammet inn utviklingsmodus i februar 2026: grensen er nå **fem brukere**
+per app, ikke 25, og **den som eier appen må ha Premium** for at appen skal virke i
+det hele tatt. Apper som allerede hadde flere brukere fikk beholde dem, men kan ikke
+legge til nye. Er gjestelisten full, må nye game mastere lage sin egen Spotify-app og
+legge inn sin egen Client ID, se under.
 
 ### Vanlige feil
 
 **«The user is not registered for this application» (403)**
 Spotify-appen står i utviklingsmodus, og kontoen som logget inn står ikke på
 gjestelisten. Legg personen til under **Settings → User Management**, som beskrevet
-over. Vedkommende må logge ut og inn igjen etterpå.
+over. Vedkommende må logge ut og inn igjen etterpå. Er de fem plassene brukt opp,
+er egen Spotify-app eneste vei videre.
 
 **«Cannot perform operation; no list was loaded»**
 Kommer fra Spotify-avspilleren når appen ber om pause eller stopp før en sang er
