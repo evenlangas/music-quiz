@@ -681,21 +681,3 @@ input {
   gap: 12px;
   margin-top: 20px;
 }
-
-/* avspillingsmåte */
-
-.modes {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.mode-btn {
-  flex: 1;
-  font-size: 0.9rem;
-}
-
-.mode-btn.on {
-  border-color: var(--signal);
-  color: var(--signal);
-}

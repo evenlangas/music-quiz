@@ -17,7 +17,6 @@ const SCOPES = [
 
 const LS = {
   clientId: 'mq.clientId',
-  mode: 'mq.mode',
   token: 'mq.token',
   verifier: 'mq.verifier',
   returnTo: 'mq.returnTo',
@@ -65,25 +64,10 @@ export function getClientId() {
   return localStorage.getItem(LS.clientId) || DEFAULT_CLIENT_ID;
 }
 
-/* ---------- avspillingsmodus ---------- */
-
-// 'lenke': åpner sangen i Spotify-appen. Ingen innlogging, ingen Premium-krav fra oss.
-// 'sdk': spiller i denne fanen. Krever innlogging, Premium og plass på gjestelisten.
-export function getMode() {
-  const m = localStorage.getItem(LS.mode);
-  if (m === 'lenke' || m === 'sdk') return m;
-  return isLoggedIn() ? 'sdk' : 'lenke';
-}
-
-export function setMode(mode) {
-  localStorage.setItem(LS.mode, mode === 'sdk' ? 'sdk' : 'lenke');
-  emit();
-}
-
 /* ---------- ferdig oppslåtte spor ---------- */
 
 // boards/uris.json, laget av tools/resolve-uris.mjs. Da slipper appen å søke
-// under quizen, og lenkemodus kan åpne riktig spor med ett trykk.
+// under quizen: ingen kvote brukt, og sporet er det samme hver gang.
 let trackMap = {};
 
 export function setTrackMap(map) {
@@ -100,24 +84,6 @@ function knownTrack(song) {
   if (song.uri) return { uri: song.uri, label: '' };
   const key = trackKey(song);
   return trackMap[key] || readCache()[key] || null;
-}
-
-function trackId(uri) {
-  return String(uri)
-    .replace(/^spotify:track:/, '')
-    .replace(/^https?:\/\/open\.spotify\.com\/track\//, '')
-    .split(/[?#]/)[0];
-}
-
-// Lenken lenkemodus åpner. Kjenner vi ikke sporet, sender vi brukeren til
-// et søk i Spotify i stedet, så quizen kan gå videre uansett.
-export function openLink(song) {
-  const hit = knownTrack(song);
-  if (hit && hit.uri) {
-    return { url: 'https://open.spotify.com/track/' + trackId(hit.uri), exact: true, label: hit.label || '' };
-  }
-  const q = [song.title, song.artist].filter(Boolean).join(' ');
-  return { url: 'https://open.spotify.com/search/' + encodeURIComponent(q), exact: false, label: '' };
 }
 
 /* ---------- token ---------- */
