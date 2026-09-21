@@ -67,6 +67,12 @@ i en sikker kontekst: `https://` eller `localhost`. Appen sender deg nå automat
 videre til https, så feilen skal ikke dukke opp igjen. Gjør den det, tilbyr ikke
 serveren https, og det må ordnes der. Avspilleren krever forresten https uansett.
 
+**«Spotify har trøbbel akkurat nå (502)» etter en stund**
+Har appen stått stille en stund, glemmer Spotify avspilleren vår, og `device_id`-en
+peker på en enhet som ikke finnes lenger. Appen kobler seg nå til på nytt og prøver
+sangen én gang til av seg selv. Kommer meldingen likevel, er det Spotify som er nede,
+og da hjelper det å laste siden på nytt.
+
 **«Cannot perform operation; no list was loaded»**
 Kommer fra Spotify-avspilleren når appen ber om pause eller stopp før en sang er
 lastet. Den er ufarlig, og appen viser den ikke lenger som en feil.

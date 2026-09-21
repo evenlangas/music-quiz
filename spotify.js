@@ -264,6 +264,12 @@ function knownError(text) {
   return '';
 }
 
+function apiFeil(status, path, raw) {
+  const err = new Error(apiError(status, path, raw));
+  err.status = status;
+  return err;
+}
+
 function apiError(status, path, raw) {
   const known = knownError(raw);
   if (known) return known;
@@ -299,12 +305,12 @@ async function api(path, options) {
     } catch (e) {
       // Spotify svarer noen ganger med ren tekst eller HTML, særlig ved 5xx.
       const snippet = text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 120);
-      throw new Error(apiError(res.status, path, snippet));
+      throw apiFeil(res.status, path, snippet);
     }
   }
   if (!res.ok) {
     const msg = (data && data.error && data.error.message) || String(res.status);
-    throw new Error(apiError(res.status, path, msg));
+    throw apiFeil(res.status, path, msg);
   }
   return data;
 }
@@ -475,25 +481,72 @@ export async function findTrack(song) {
 
 /* ---------- avspilling ---------- */
 
+// Venter til avspilleren melder seg klar, eller gir opp.
+async function ventPaaEnhet() {
+  for (let i = 0; i < 40 && !deviceId; i++) {
+    if (playerState === 'error') break;
+    await new Promise((r) => setTimeout(r, 250));
+  }
+  return !!deviceId;
+}
+
+// Har appen statt stille en stund, glemmer Spotify enheten vaar. Da svarer
+// /me/player/play 502 eller 404 paa en device_id som ikke finnes lenger.
+// Vi kobler til paa nytt og henter en fersk id.
+async function koblePaaNytt() {
+  deviceId = null;
+  hasTrack = false;
+  playerState = 'connecting';
+  playerError = '';
+  emit();
+  if (!player) {
+    await initPlayer();
+  } else {
+    try {
+      player.disconnect();
+    } catch (e) {
+      /* var allerede borte */
+    }
+    const ok = await player.connect();
+    if (!ok) throw new Error('Mistet forbindelsen til Spotify. Last siden på nytt.');
+  }
+  if (!(await ventPaaEnhet())) {
+    throw new Error(playerError || 'Avspilleren kom ikke tilbake. Last siden på nytt.');
+  }
+}
+
+function spillPaaEnhet(song, track) {
+  return api('/me/player/play?device_id=' + deviceId, {
+    method: 'PUT',
+    body: JSON.stringify({ uris: [track.uri], position_ms: song.startMs || 0 })
+  });
+}
+
 export async function playSong(song) {
   if (!getClientId()) throw new Error('Appen mangler Spotify Client ID.');
   if (!isLoggedIn()) throw new Error('Logg inn i Spotify på forsiden.');
   if (accountIssue) throw new Error(accountIssue);
   if (playerState !== 'ready') await initPlayer();
-  for (let i = 0; i < 40 && !deviceId; i++) {
-    if (playerState === 'error') break;
-    await new Promise((r) => setTimeout(r, 250));
-  }
-  if (!deviceId) {
+  if (!(await ventPaaEnhet())) {
     throw new Error(
       playerError || inAppBrowserHint() || 'Avspilleren ble ikke klar. Last siden på nytt.'
     );
   }
   const track = await findTrack(song);
-  await api('/me/player/play?device_id=' + deviceId, {
-    method: 'PUT',
-    body: JSON.stringify({ uris: [track.uri], position_ms: song.startMs || 0 })
-  });
+  try {
+    await spillPaaEnhet(song, track);
+  } catch (e) {
+    // 502 og 404 her betyr som regel at enheten er glemt, ikke at Spotify er nede.
+    if (e.status !== 502 && e.status !== 404) throw e;
+    await koblePaaNytt();
+    try {
+      await spillPaaEnhet(song, track);
+    } catch (e2) {
+      throw new Error(
+        'Spotify ville ikke starte sangen, heller ikke etter at avspilleren koblet seg til på nytt. Last siden på nytt.'
+      );
+    }
+  }
   hasTrack = true;
   return track.label;
 }
