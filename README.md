@@ -3,6 +3,8 @@
 Game master-app for brettspill-musikkquiz. Åtte kategorier per brett. Fem sanger per
 kategori, med vanskelighetsgrad 1 til 5. Vanskelighetsgraden er også poengsummen.
 
+Svaret gjemmer seg i låta: i tittelen, artisten, albumet, teksten eller selve lyden.
+
 Appen er ren HTML, CSS og JavaScript. Den trenger ingen bygging.
 
 ## Slik spiller dere
@@ -177,6 +179,31 @@ Et brett bør ha åtte kategorier med fem sanger hver, en av hver vanskelighetsg
 - **Klassisk oppvarming** – Dyr, Farger, Tall, Yrker, Byer, Kroppsdeler, Mat og drikke, Vær
 - **Blandet drops** – Kjøretøy, Land, Klær, Fornavn, Verdensrommet, Dager og måneder, Sport, Familie
 - **For viderekomne** – Drikke, Planter og blomster, Følelser, Tid på døgnet, Instrumenter, Hav og vann, Metaller og edelstener, Kjente personer
+
+## Utseende
+
+Forsiden er også landingssiden: den forklarer spillet før den viser brettene.
+
+Den visuelle profilen ligger i `styles.css` som CSS-variabler.
+
+| Token | Verdi | Brukes til |
+| --- | --- | --- |
+| `--blekk` | `#0b0e13` | Bakgrunn |
+| `--kull` | `#151a22` | Kort og paneler |
+| `--kritt` | `#e9edf4` | Brødtekst |
+| `--damp` | `#8a93a5` | Dempet tekst |
+| `--signal` | `#f2a93b` | Merket, avspilling, fasit |
+| `--ekko` | `#7c8cf8` | Lag og poeng |
+| `--varsel` | `#e3574a` | Feil |
+| `--grad-1` til `--grad-5` | grått til gult | Vanskelighetsgrad 1 til 5 |
+
+Signalet er gult, ikke grønt. Spotifys utviklerpolicy forbyr apper å likne på
+dem, og grønt er dessuten den mest opplagte fargen en musikkapp kan velge.
+
+Merket er en ø tegnet som en plate: ring, spor og en skråstrek som også er
+tonearm. Det ligger som inline SVG i `app.js` og som favicon i `index.html`.
+
+Skriftene ligger i `fonts/` og hostes lokalt, se `fonts/LISENS.md`.
 
 ## Data i nettleseren
 
