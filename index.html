@@ -2,6 +2,13 @@
 <html lang="no">
 <head>
 <meta charset="utf-8">
+<script>
+  // Spotify-innlogging bruker Web Crypto, og avspilleren krever DRM. Begge deler
+  // finnes bare i en sikker kontekst. Er siden åpnet over http, bytt til https.
+  if (location.protocol === 'http:' && !/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+    location.replace('https://' + location.host + location.pathname + location.search + location.hash);
+  }
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b0e13">
 <title>Gehør</title>

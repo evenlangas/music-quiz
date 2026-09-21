@@ -108,6 +108,7 @@ function mark(size) {
 
 function statusLine() {
   if (!sp.getClientId()) return { text: 'Spotify er ikke satt opp', cls: 'warn' };
+  if (sp.insecureContextHint()) return { text: 'Spotify krever https på denne siden', cls: 'bad' };
   if (!sp.isLoggedIn()) return { text: 'Ikke logget inn i Spotify', cls: 'warn' };
   const issue = sp.getAccountIssue();
   if (issue) return { text: issue, cls: 'bad' };
@@ -354,11 +355,19 @@ function spotifyBox() {
     `);
   }
 
+  const usikker = sp.insecureContextHint();
   const box = el(`
     <div>
+      ${usikker ? `<p class="banner bad">${esc(usikker)}</p>` : ''}
       <p class="muted small">Sangene spilles rett i denne fanen. Game master må være logget inn og ha Spotify Premium.</p>
       <div class="row">
-        ${sp.isLoggedIn() ? '<button id="logout">Logg ut</button>' : '<button id="login" class="primary">Logg inn i Spotify</button>'}
+        ${
+          usikker
+            ? ''
+            : sp.isLoggedIn()
+              ? '<button id="logout">Logg ut</button>'
+              : '<button id="login" class="primary">Logg inn i Spotify</button>'
+        }
         <button id="clear-cache" class="link">Tøm sang-cache</button>
       </div>
       <p class="muted small">Redirect URI: <code>${esc(sp.redirectUri())}</code></p>
