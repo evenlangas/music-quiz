@@ -96,6 +96,7 @@ function render() {
 /* ---------- felles deler ---------- */
 
 function statusLine() {
+  if (sp.getMode() === 'lenke') return { text: 'Åpner sangene i Spotify-appen', cls: 'ok' };
   if (!sp.getClientId()) return { text: 'Spotify er ikke satt opp', cls: 'warn' };
   if (!sp.isLoggedIn()) return { text: 'Ikke logget inn i Spotify', cls: 'warn' };
   const issue = sp.getAccountIssue();
@@ -108,6 +109,7 @@ function statusLine() {
 
 // Advarsel om innebygd nettleser, for eksempel lenker åpnet i Messenger.
 function browserWarning() {
+  if (sp.getMode() === 'lenke') return '';
   const hint = sp.inAppBrowserHint();
   return hint ? `<p class="banner warn">${esc(hint)}</p>` : '';
 }
@@ -238,16 +240,38 @@ function spotifyBox() {
     `);
   }
 
+  const mode = sp.getMode();
   const box = el(`
     <div>
-      <p class="muted">Logg inn med din egen Spotify-konto. Avspilling krever Spotify Premium.</p>
+      <div class="modes">
+        <button data-mode="lenke" class="mode-btn${mode === 'lenke' ? ' on' : ''}">Åpne i Spotify-appen</button>
+        <button data-mode="sdk" class="mode-btn${mode === 'sdk' ? ' on' : ''}">Spill her i appen</button>
+      </div>
+      <p class="muted small">${
+        mode === 'lenke'
+          ? 'Trykk på en rute, så åpnes sangen i Spotify-appen. Ingen innlogging. Virker for alle, også uten Premium-konto hos oss.'
+          : 'Spiller sangen rett i denne fanen, med pause og teller. Krever innlogging, Spotify Premium og plass på gjestelisten til appen.'
+      }</p>
+      ${
+        mode === 'sdk'
+          ? `<div class="row">
+               ${sp.isLoggedIn() ? '<button id="logout">Logg ut</button>' : '<button id="login" class="primary">Logg inn i Spotify</button>'}
+             </div>
+             <p class="muted small">Redirect URI: <code>${esc(sp.redirectUri())}</code></p>`
+          : ''
+      }
       <div class="row">
-        ${sp.isLoggedIn() ? '<button id="logout">Logg ut</button>' : '<button id="login" class="primary">Logg inn i Spotify</button>'}
         <button id="clear-cache" class="link">Tøm sang-cache</button>
       </div>
-      <p class="muted small">Redirect URI: <code>${esc(sp.redirectUri())}</code></p>
     </div>
   `);
+
+  box.querySelectorAll('[data-mode]').forEach((b) =>
+    b.addEventListener('click', () => {
+      sp.setMode(b.dataset.mode);
+      render();
+    })
+  );
 
   const login = box.querySelector('#login');
   if (login) {
@@ -316,7 +340,9 @@ function renderBoard(r) {
   `);
 
   // Aktiver lyd mens vi fortsatt er inne i trykket. iOS Safari krever det.
-  view.querySelectorAll('.cell').forEach((a) => a.addEventListener('click', () => sp.activate()));
+  if (sp.getMode() === 'sdk') {
+    view.querySelectorAll('.cell').forEach((a) => a.addEventListener('click', () => sp.activate()));
+  }
 
   view.querySelector('#reset-board').addEventListener('click', () => {
     if (!confirm('Merke alle ruter som ubrukte?')) return;
@@ -345,11 +371,28 @@ function renderPlay(r) {
 
   const fresh = !state.playing || state.playing.song !== song;
   if (fresh) {
-    state.playing = { song, cat, board, status: 'starter', revealed: false, startedAt: Date.now(), paused: false };
+    const link = sp.getMode() === 'lenke';
+    state.playing = {
+      song,
+      cat,
+      board,
+      status: link ? 'klar' : 'starter',
+      revealed: false,
+      startedAt: Date.now(),
+      paused: false
+    };
     markUsed(board.id, r.cat, song.difficulty, true);
-    startPlayback();
+    if (!link) startPlayback();
   }
   drawPlay();
+}
+
+function startTick(p) {
+  stopTick();
+  tickTimer = setInterval(() => {
+    const t = document.getElementById('elapsed');
+    if (t) t.textContent = formatTime(Date.now() - p.startedAt);
+  }, 500);
 }
 
 function startPlayback() {
@@ -360,11 +403,7 @@ function startPlayback() {
       p.status = 'spiller';
       p.startedAt = Date.now();
       drawPlay();
-      stopTick();
-      tickTimer = setInterval(() => {
-        const t = document.getElementById('elapsed');
-        if (t) t.textContent = formatTime(Date.now() - p.startedAt);
-      }, 500);
+      startTick(p);
     })
     .catch((err) => {
       p.status = 'feil';
@@ -399,12 +438,31 @@ function drawPlay() {
         .join('')
     : '<p class="muted">Legg til lag på brettsiden for å gi poeng.</p>';
 
+  const linkMode = sp.getMode() === 'lenke';
+  const link = linkMode ? sp.openLink(p.song) : null;
+  const started = p.status === 'spiller';
+
+  const linkStage = link
+    ? `<a class="btn big" id="open-spotify" href="${esc(link.url)}" target="_blank" rel="noopener">${
+        link.exact ? 'Åpne i Spotify' : 'Søk i Spotify'
+      }</a>
+       <p class="playing-word" id="play-word"${started ? '' : ' hidden'}>SPILLER</p>
+       <p class="elapsed" id="elapsed"${started ? '' : ' hidden'}>0:00</p>
+       ${
+         link.exact
+           ? ''
+           : '<p class="muted small">Denne sangen er ikke slått opp enda, så lenka åpner et søk i Spotify. Kjør <code>tools/resolve-uris.mjs</code> for å få ett trykk.</p>'
+       }`
+    : '';
+
   const status =
     p.status === 'feil'
       ? `<p class="banner bad">${esc(p.error || 'Ukjent feil')}</p>
          ${browserWarning()}
          <button id="retry">Prøv igjen</button>`
-      : `<p class="playing-word">${p.status === 'spiller' ? (p.paused ? 'PAUSE' : 'SPILLER') : 'STARTER'}</p>
+      : linkMode
+        ? linkStage
+        : `<p class="playing-word">${started ? (p.paused ? 'PAUSE' : 'SPILLER') : 'STARTER'}</p>
          <p class="elapsed" id="elapsed">0:00</p>`;
 
   const view = el(`
@@ -414,10 +472,14 @@ function drawPlay() {
         <span class="tag">${esc(p.cat.name)} ${p.song.difficulty}</span>
       </header>
       <div class="stage">${status}</div>
-      <div class="controls">
+      ${
+        linkMode
+          ? ''
+          : `<div class="controls">
         <button id="toggle">${p.paused ? 'Fortsett' : 'Pause'}</button>
         <button id="restart">Start på nytt</button>
-      </div>
+      </div>`
+      }
       ${answerBlock}
       <div class="award">${p.revealed ? teamButtons : ''}</div>
       <div class="play-foot">
@@ -434,7 +496,26 @@ function drawPlay() {
       drawPlay();
     });
   }
-  view.querySelector('#toggle').addEventListener('click', () => {
+  // Lenka skal få lov til å navigere. Derfor ingen ny opptegning her, bare
+  // teller og tekst som skrus på i DOM-en som allerede står der.
+  const open = view.querySelector('#open-spotify');
+  if (open) {
+    open.addEventListener('click', () => {
+      p.status = 'spiller';
+      p.startedAt = Date.now();
+      const word = view.querySelector('#play-word');
+      const elapsed = view.querySelector('#elapsed');
+      if (word) word.hidden = false;
+      if (elapsed) {
+        elapsed.hidden = false;
+        elapsed.textContent = '0:00';
+      }
+      startTick(p);
+    });
+  }
+
+  const toggle = view.querySelector('#toggle');
+  if (toggle) toggle.addEventListener('click', () => {
     if (p.paused) {
       sp.resume();
       p.paused = false;
@@ -444,13 +525,15 @@ function drawPlay() {
     }
     drawPlay();
   });
-  view.querySelector('#restart').addEventListener('click', () => {
-    sp.activate();
-    p.paused = false;
-    p.status = 'starter';
-    drawPlay();
-    startPlayback();
-  });
+  const restart = view.querySelector('#restart');
+  if (restart)
+    restart.addEventListener('click', () => {
+      sp.activate();
+      p.paused = false;
+      p.status = 'starter';
+      drawPlay();
+      startPlayback();
+    });
   const retry = view.querySelector('#retry');
   if (retry) {
     retry.addEventListener('click', () => {
@@ -483,7 +566,7 @@ function drawPlay() {
 
   app.replaceChildren(view);
   const t = document.getElementById('elapsed');
-  if (t && p.status === 'spiller') t.textContent = formatTime(Date.now() - p.startedAt);
+  if (t && started) t.textContent = formatTime(Date.now() - p.startedAt);
 }
 
 /* ---------- oppstart ---------- */
@@ -496,6 +579,16 @@ async function loadBoards() {
   state.boards = boards.map((b, i) => ({ ...b, id: b.id || ids[i] }));
 }
 
+// Ferdig oppslåtte spor fra tools/resolve-uris.mjs. Fila kan mangle, det går fint.
+async function loadTrackMap() {
+  try {
+    const res = await fetch('./boards/uris.json');
+    if (res.ok) sp.setTrackMap(await res.json());
+  } catch (e) {
+    /* appen søker seg fram i stedet */
+  }
+}
+
 async function main() {
   const err = await sp.handleRedirect();
   if (err) state.error = err;
@@ -505,12 +598,12 @@ async function main() {
   window.addEventListener('hashchange', render);
   render();
   try {
-    await loadBoards();
+    await Promise.all([loadBoards(), loadTrackMap()]);
   } catch (e) {
     state.error = 'Klarte ikke å laste brettene. Kjør appen fra en webserver, ikke som fil.';
   }
   render();
-  if (sp.isLoggedIn()) sp.initPlayer().catch(() => {});
+  if (sp.getMode() === 'sdk' && sp.isLoggedIn()) sp.initPlayer().catch(() => {});
 }
 
 main();
