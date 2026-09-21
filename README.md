@@ -1,4 +1,4 @@
-# Musikkquiz
+# Gehør
 
 Game master-app for brettspill-musikkquiz. Åtte kategorier per brett. Fem sanger per
 kategori, med vanskelighetsgrad 1 til 5. Vanskelighetsgraden er også poengsummen.

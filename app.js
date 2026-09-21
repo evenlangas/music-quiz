@@ -207,7 +207,7 @@ function renderHome() {
   const view = el(`
     <div class="page">
       <header class="head">
-        <h1>Musikkquiz</h1>
+        <h1>Gehør</h1>
         <p class="status ${s.cls}">${esc(s.text)}</p>
       </header>
       ${browserWarning()}
