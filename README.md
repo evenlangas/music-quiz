@@ -61,6 +61,12 @@ gjestelisten. Legg personen til under **Settings → User Management**, som besk
 over. Vedkommende må logge ut og inn igjen etterpå. Er de fem plassene brukt opp,
 er egen Spotify-app eneste vei videre inntil appen får utvidet kvote.
 
+**«can't access property "digest", crypto.subtle is undefined»**
+Siden er åpnet over `http://`. Web Crypto, som PKCE-innloggingen bruker, finnes bare
+i en sikker kontekst: `https://` eller `localhost`. Appen sender deg nå automatisk
+videre til https, så feilen skal ikke dukke opp igjen. Gjør den det, tilbyr ikke
+serveren https, og det må ordnes der. Avspilleren krever forresten https uansett.
+
 **«Cannot perform operation; no list was loaded»**
 Kommer fra Spotify-avspilleren når appen ber om pause eller stopp før en sang er
 lastet. Den er ufarlig, og appen viser den ikke lenger som en feil.

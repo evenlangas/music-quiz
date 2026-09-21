@@ -59,6 +59,18 @@ export function inAppBrowserHint() {
     : 'Du har åpnet appen inne i en annen app. Spotify kan ikke spille av her. Åpne siden i en vanlig nettleser.';
 }
 
+// Innloggingen lager PKCE-utfordringen med Web Crypto, som bare finnes i en
+// sikker kontekst. Er siden åpnet over http, er crypto.subtle undefined.
+export function insecureContextHint() {
+  const harCrypto = typeof crypto !== 'undefined' && crypto.subtle;
+  if (window.isSecureContext && harCrypto) return '';
+  if (location.protocol === 'http:') {
+    return 'Siden er åpnet over http. Spotify-innlogging krever https. Åpne https://' +
+      location.host + location.pathname + ' i stedet.';
+  }
+  return 'Nettleseren gir ikke appen tilgang til Web Crypto, som Spotify-innloggingen trenger. Åpne siden i Safari eller Chrome.';
+}
+
 // En egen Client ID i localStorage overstyrer standarden. Nyttig for den som forker appen.
 export function getClientId() {
   return localStorage.getItem(LS.clientId) || DEFAULT_CLIENT_ID;
@@ -167,6 +179,8 @@ function base64url(buf) {
 }
 
 export async function login() {
+  const usikker = insecureContextHint();
+  if (usikker) throw new Error(usikker);
   const clientId = getClientId();
   if (!clientId) throw new Error('Mangler Spotify Client ID.');
   const verifier = randomString(96);
