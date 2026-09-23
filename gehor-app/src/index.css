@@ -1,0 +1,526 @@
+/* Gehør — samme profil som v1: natt i bunn, ett varmt signal. */
+
+@font-face {
+  font-family: 'Familjen Grotesk';
+  src: url('./assets/fonts/familjen-grotesk.woff2') format('woff2');
+  font-weight: 400 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  src: url('./assets/fonts/instrument-sans.woff2') format('woff2');
+  font-weight: 400 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('./assets/fonts/instrument-serif.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  --blekk: #0b0e13;
+  --kull: #151a22;
+  --kull-2: #10151d;
+  --strek: #232c3a;
+  --kritt: #e9edf4;
+  --damp: #8a93a5;
+  --signal: #f2a93b;
+  --varsel: #e3574a;
+  --grad-1: #9aa3b2;
+  --grad-2: #c2ae7e;
+  --grad-3: #d9b558;
+  --grad-4: #e8b044;
+  --grad-5: #f2a93b;
+  --display: 'Familjen Grotesk', system-ui, sans-serif;
+  --sans: 'Instrument Sans', system-ui, -apple-system, sans-serif;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --radius: 16px;
+  --team: var(--damp);
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--blekk);
+  color: var(--kritt);
+  font: 16px/1.5 var(--sans);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--display);
+  line-height: 1.15;
+  margin: 0 0 0.4em;
+}
+h1 {
+  font-size: 1.8rem;
+}
+
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: max(20px, env(safe-area-inset-top)) 16px max(40px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.page.center {
+  min-height: 100dvh;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.lede {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  color: var(--damp);
+  margin: -8px 0 8px;
+}
+.muted {
+  color: var(--damp);
+}
+.eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--damp);
+  margin: 0 0 6px;
+  font-family: var(--sans);
+  font-weight: 600;
+}
+.error {
+  color: var(--varsel);
+}
+code {
+  font-size: 0.9em;
+}
+
+.steps {
+  text-align: left;
+  color: var(--damp);
+  max-width: 340px;
+  padding-left: 1.2em;
+}
+
+/* Knapper */
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: 0;
+  border-radius: 12px;
+  padding: 12px 16px;
+  background: var(--kull);
+}
+button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.primary {
+  background: var(--signal);
+  color: var(--blekk);
+  font-weight: 600;
+}
+.secondary {
+  background: var(--strek);
+}
+.ghost {
+  background: transparent;
+  border: 1px solid var(--strek);
+}
+.danger {
+  color: var(--varsel);
+}
+.link {
+  background: none;
+  color: var(--damp);
+  text-decoration: underline;
+  padding: 8px;
+}
+.big {
+  width: 100%;
+  max-width: 360px;
+  padding: 18px;
+  font-size: 1.1rem;
+}
+.back {
+  align-self: flex-start;
+}
+
+input {
+  font: inherit;
+  color: var(--kritt);
+  background: var(--kull-2);
+  border: 1px solid var(--strek);
+  border-radius: 12px;
+  padding: 12px 14px;
+  width: 100%;
+}
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--damp);
+}
+
+/* Skanner */
+.scanner {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: max(16px, env(safe-area-inset-top)) 16px 24px;
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+.scanner-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+.scanner-head h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+.viewfinder {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #000;
+  aspect-ratio: 1;
+}
+.viewfinder video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.viewfinder .error {
+  position: absolute;
+  inset: auto 12px 12px;
+}
+.hint {
+  color: var(--signal);
+}
+.manual {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+}
+
+/* Bli med */
+.roles {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.role {
+  text-align: left;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border: 1px solid var(--strek);
+}
+.role strong {
+  font-family: var(--display);
+  font-size: 1.3rem;
+}
+.role span {
+  color: var(--damp);
+}
+.team-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.colors {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+}
+.colors legend {
+  color: var(--damp);
+  margin-bottom: 6px;
+}
+.swatch {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--team);
+  padding: 0;
+  border: 3px solid transparent;
+}
+.swatch.picked {
+  border-color: var(--kritt);
+  box-shadow: 0 0 0 3px var(--blekk) inset;
+}
+.swatch:disabled {
+  opacity: 0.15;
+}
+
+.chips {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chips li {
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 2px solid var(--team);
+}
+
+/* Poengtavle */
+.scoreboard {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.scoreboard li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--kull);
+  border-radius: 12px;
+}
+.scoreboard li.me {
+  outline: 2px solid var(--team);
+}
+.scoreboard .name {
+  flex: 1;
+}
+.scoreboard .score {
+  font-family: var(--display);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--team);
+  flex: none;
+}
+
+/* Lag og buzzer */
+.team-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.team-head h1 {
+  margin: 0;
+  flex: 1;
+  font-size: 1.5rem;
+}
+.team-head .dot {
+  width: 18px;
+  height: 18px;
+}
+.team-head .score {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.now-playing {
+  margin: 0;
+  color: var(--damp);
+  text-align: center;
+}
+.now-playing strong {
+  color: var(--kritt);
+}
+.buzzer {
+  --progress: 0;
+  align-self: center;
+  width: min(78vw, 340px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--team);
+  color: var(--blekk);
+  box-shadow:
+    0 12px 0 color-mix(in srgb, var(--team) 55%, #000),
+    0 0 60px color-mix(in srgb, var(--team) 35%, transparent);
+  transition:
+    transform 80ms,
+    box-shadow 80ms,
+    background 150ms;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  position: relative;
+  margin-bottom: 12px;
+}
+.buzzer:active:not(.locked) {
+  transform: translateY(8px);
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--team) 55%, #000);
+}
+.buzzer.locked {
+  background: conic-gradient(
+    color-mix(in srgb, var(--team) 45%, var(--kull)) calc(var(--progress) * 360deg),
+    var(--kull) 0
+  );
+  color: var(--kritt);
+  box-shadow: 0 12px 0 #05070a;
+  cursor: not-allowed;
+}
+.buzzer-label {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(3rem, 18vw, 6rem);
+  text-transform: uppercase;
+}
+.buzzer-sub {
+  text-align: center;
+  color: var(--damp);
+  margin: 0;
+  min-height: 1.5em;
+}
+
+/* Game master */
+.gm-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.gm-head h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+.gm-head .eyebrow {
+  margin: 0;
+}
+.now {
+  background: var(--kull);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border: 1px solid var(--strek);
+}
+.buzz-banner {
+  border-radius: 12px;
+  padding: 12px 16px;
+  border: 2px solid var(--team);
+  font-family: var(--display);
+  font-size: 1.1rem;
+}
+.buzz-banner.fresh {
+  background: var(--team);
+  color: var(--blekk);
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-align: center;
+}
+.spotify {
+  min-height: 152px;
+}
+.spotify iframe {
+  border-radius: 12px;
+}
+.missing {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--damp);
+}
+.missing p {
+  margin: 0;
+}
+.missing a {
+  color: var(--signal);
+}
+.missing form {
+  display: flex;
+  gap: 8px;
+}
+.answer {
+  border-left: 3px solid var(--signal);
+  padding-left: 12px;
+}
+.answer p {
+  margin: 0 0 4px;
+}
+.answer-word {
+  font-family: var(--serif);
+  font-size: 2rem;
+  color: var(--signal);
+}
+.award-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.team-btn {
+  background: var(--team);
+  color: var(--blekk);
+  font-weight: 600;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cat h3 {
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+.cells {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+.cell {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.2rem;
+  padding: 12px 0;
+  background: var(--kull);
+  border: 1px solid var(--strek);
+}
+.cell.grad-1 { color: var(--grad-1); }
+.cell.grad-2 { color: var(--grad-2); }
+.cell.grad-3 { color: var(--grad-3); }
+.cell.grad-4 { color: var(--grad-4); }
+.cell.grad-5 { color: var(--grad-5); }
+.cell.current {
+  background: var(--signal);
+  color: var(--blekk);
+}
+.cell.played {
+  opacity: 1;
+  color: var(--damp);
+  background: color-mix(in srgb, var(--team) 25%, var(--kull-2));
+  border-color: color-mix(in srgb, var(--team) 60%, transparent);
+  text-decoration: line-through;
+}
+.gm-foot {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  margin-top: 12px;
+}

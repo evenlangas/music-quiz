@@ -1,0 +1,287 @@
+{
+  "id": "august-2023-2",
+  "name": "Musikkquiz august 2023 (2/2)",
+  "description": "Grunnstoff, bilmerke, film, årstall, idrett, land, yrke og fremkomstmiddel.",
+  "categories": [
+    {
+      "name": "Grunnstoff",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Pie Jesu",
+          "artist": "",
+          "answer": "Sølv"
+        },
+        {
+          "difficulty": 2,
+          "title": "Silikon i tatti",
+          "artist": "",
+          "answer": "Silikon"
+        },
+        {
+          "difficulty": 3,
+          "title": "Helium",
+          "artist": "Sia",
+          "answer": "Helium"
+        },
+        {
+          "difficulty": 4,
+          "title": "O store Gud",
+          "artist": "",
+          "answer": "Oksygen"
+        },
+        {
+          "difficulty": 5,
+          "title": "The Way You Make Me Feel",
+          "artist": "Michael Jackson",
+          "answer": "Helium (hee hee)"
+        }
+      ]
+    },
+    {
+      "name": "Bilmerke",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Toyota Hiace",
+          "artist": "",
+          "answer": "Toyota"
+        },
+        {
+          "difficulty": 2,
+          "title": "Mercedes Benz",
+          "artist": "Janis Joplin",
+          "answer": "Mercedes-Benz"
+        },
+        {
+          "difficulty": 3,
+          "title": "Den fineste Tesla'n",
+          "artist": "",
+          "answer": "Tesla"
+        },
+        {
+          "difficulty": 4,
+          "title": "Cruel Summer",
+          "artist": "Taylor Swift",
+          "answer": "Suzuki Swift"
+        },
+        {
+          "difficulty": 5,
+          "title": "Poison",
+          "artist": "Alice Cooper",
+          "answer": "Mini Cooper"
+        }
+      ]
+    },
+    {
+      "name": "Film/serie",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Ghostbusters",
+          "artist": "Ray Parker Jr.",
+          "answer": "Ghostbusters"
+        },
+        {
+          "difficulty": 2,
+          "title": "Colors of the Wind",
+          "artist": "Vanessa Williams",
+          "answer": "Pocahontas"
+        },
+        {
+          "difficulty": 3,
+          "title": "Danger Zone",
+          "artist": "Kenny Loggins",
+          "answer": "Top Gun"
+        },
+        {
+          "difficulty": 4,
+          "title": "The Crown Main Title",
+          "artist": "Hans Zimmer",
+          "answer": "The Crown"
+        },
+        {
+          "difficulty": 5,
+          "title": "Alice's Theme",
+          "artist": "Danny Elfman",
+          "answer": "Alice i Eventyrland"
+        }
+      ]
+    },
+    {
+      "name": "Årstall",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "1999",
+          "artist": "Prince",
+          "answer": "1999"
+        },
+        {
+          "difficulty": 2,
+          "title": "2002",
+          "artist": "Anne-Marie",
+          "answer": "2002"
+        },
+        {
+          "difficulty": 3,
+          "title": "1985",
+          "artist": "Bowling for Soup",
+          "answer": "1985"
+        },
+        {
+          "difficulty": 4,
+          "title": "1975",
+          "artist": "",
+          "answer": "1975"
+        },
+        {
+          "difficulty": 5,
+          "title": "Blank Space",
+          "artist": "Taylor Swift",
+          "answer": "1989"
+        }
+      ]
+    },
+    {
+      "name": "Idrett",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Three Lions",
+          "artist": "Lightning Seeds",
+          "answer": "Fotball"
+        },
+        {
+          "difficulty": 2,
+          "title": "Dance the Night Away",
+          "artist": "",
+          "answer": "Dans"
+        },
+        {
+          "difficulty": 3,
+          "title": "Butterflies",
+          "artist": "",
+          "answer": "Butterfly (svømming)"
+        },
+        {
+          "difficulty": 4,
+          "title": "Sprinter",
+          "artist": "Dave",
+          "answer": "Sprint"
+        },
+        {
+          "difficulty": 5,
+          "title": "Haien kommer",
+          "artist": "",
+          "answer": "Golf"
+        }
+      ]
+    },
+    {
+      "name": "Land",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Italia",
+          "artist": "",
+          "answer": "Italia"
+        },
+        {
+          "difficulty": 2,
+          "title": "Wilhelmus van Nassouwe",
+          "artist": "",
+          "answer": "Nederland"
+        },
+        {
+          "difficulty": 3,
+          "title": "Lenge leve",
+          "artist": "Karpe",
+          "answer": "Egoland"
+        },
+        {
+          "difficulty": 4,
+          "title": "Feel It Still",
+          "artist": "Portugal. The Man",
+          "answer": "Portugal"
+        },
+        {
+          "difficulty": 5,
+          "title": "Take Me Out",
+          "artist": "Franz Ferdinand",
+          "answer": "Østerrike"
+        }
+      ]
+    },
+    {
+      "name": "Yrke",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Mr. Cab Driver",
+          "artist": "Lenny Kravitz",
+          "answer": "Taxisjåfør"
+        },
+        {
+          "difficulty": 2,
+          "title": "Supermodel",
+          "artist": "",
+          "answer": "Modell"
+        },
+        {
+          "difficulty": 3,
+          "title": "Bartender",
+          "artist": "",
+          "answer": "Bartender"
+        },
+        {
+          "difficulty": 4,
+          "title": "Top of the World",
+          "artist": "The Carpenters",
+          "answer": "Snekker"
+        },
+        {
+          "difficulty": 5,
+          "title": "Wonderful World",
+          "artist": "Sam Cooke",
+          "answer": "Kokk"
+        }
+      ]
+    },
+    {
+      "name": "Fremkomstmiddel",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Freight Train",
+          "artist": "",
+          "answer": "Tog"
+        },
+        {
+          "difficulty": 2,
+          "title": "Modedbart",
+          "artist": "",
+          "answer": "Moped"
+        },
+        {
+          "difficulty": 3,
+          "title": "Air Balloon",
+          "artist": "Lily Allen",
+          "answer": "Varmluftsballong"
+        },
+        {
+          "difficulty": 4,
+          "title": "Parachutes",
+          "artist": "",
+          "answer": "Fallskjerm"
+        },
+        {
+          "difficulty": 5,
+          "title": "William Tell Overture",
+          "artist": "",
+          "answer": "Hest"
+        }
+      ]
+    }
+  ]
+}

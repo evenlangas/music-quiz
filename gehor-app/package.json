@@ -1,0 +1,35 @@
+{
+  "name": "gehor-app",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "seed": "node tools/make-seed.mjs content/boards",
+    "qr": "node tools/make-qr.mjs",
+    "dev:lan": "vite --host"
+  },
+  "dependencies": {
+    "@capacitor/core": "^8.5.2",
+    "@supabase/supabase-js": "^2.117.0",
+    "qr-scanner": "^1.4.2",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.2",
+    "@types/node": "^24.13.3",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "qrcode": "^1.5.4",
+    "supabase": "^2.117.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0"
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "id": "klassisk",
+  "name": "Klassisk oppvarming",
+  "description": "Kjente sanger og greie kategorier. Bra brett å starte med.",
+  "categories": [
+    {
+      "name": "Dyr",
+      "songs": [
+        { "difficulty": 1, "title": "Eye of the Tiger", "artist": "Survivor", "answer": "Tiger", "why": "Står rett i tittelen." },
+        { "difficulty": 2, "title": "Hungry Like the Wolf", "artist": "Duran Duran", "answer": "Ulv", "why": "Wolf betyr ulv. Står i tittelen." },
+        { "difficulty": 3, "title": "Feel Good Inc.", "artist": "Gorillaz", "answer": "Gorilla", "why": "Bandet heter Gorillaz." },
+        { "difficulty": 4, "title": "Hotel California", "artist": "Eagles", "answer": "Ørn", "why": "Bandet heter Eagles, som betyr ørner." },
+        { "difficulty": 5, "title": "Nothing Else Matters", "artist": "Metallica", "answer": "Slange", "why": "Sangen er fra The Black Album. Omslaget viser en sammenrullet slange." }
+      ]
+    },
+    {
+      "name": "Farger",
+      "songs": [
+        { "difficulty": 1, "title": "Yellow", "artist": "Coldplay", "answer": "Gul", "why": "Tittelen er fargen." },
+        { "difficulty": 2, "title": "Purple Haze", "artist": "Jimi Hendrix", "answer": "Lilla", "why": "Purple betyr lilla." },
+        { "difficulty": 3, "title": "Basket Case", "artist": "Green Day", "answer": "Grønn", "why": "Bandet heter Green Day." },
+        { "difficulty": 4, "title": "While My Guitar Gently Weeps", "artist": "The Beatles", "answer": "Hvit", "why": "Sangen er fra The White Album." },
+        { "difficulty": 5, "title": "Thinkin Bout You", "artist": "Frank Ocean", "answer": "Oransje", "why": "Albumet heter Channel Orange." }
+      ]
+    },
+    {
+      "name": "Tall",
+      "songs": [
+        { "difficulty": 1, "title": "99 Luftballons", "artist": "Nena", "answer": "99", "why": "Står i tittelen." },
+        { "difficulty": 2, "title": "Summer of '69", "artist": "Bryan Adams", "answer": "69", "why": "Står i tittelen og i refrenget." },
+        { "difficulty": 3, "title": "Hurt", "artist": "Nine Inch Nails", "answer": "9", "why": "Bandet heter Nine Inch Nails." },
+        { "difficulty": 4, "title": "Lose Yourself", "artist": "Eminem", "answer": "8", "why": "Sangen er laget til filmen 8 Mile." },
+        { "difficulty": 5, "title": "Rolling in the Deep", "artist": "Adele", "answer": "21", "why": "Albumet heter 21." }
+      ]
+    },
+    {
+      "name": "Yrker",
+      "songs": [
+        { "difficulty": 1, "title": "Rocket Man", "artist": "Elton John", "answer": "Astronaut", "why": "Sangen handler om en mann som blir sendt ut i rommet." },
+        { "difficulty": 2, "title": "Piano Man", "artist": "Billy Joel", "answer": "Pianist", "why": "Står i tittelen." },
+        { "difficulty": 3, "title": "Every Breath You Take", "artist": "The Police", "answer": "Politi", "why": "Bandet heter The Police." },
+        { "difficulty": 4, "title": "Fortunate Son", "artist": "Creedence Clearwater Revival", "answer": "Soldat", "why": "Teksten handler om unge menn som blir sendt i krigen." },
+        { "difficulty": 5, "title": "Sweet Home Alabama", "artist": "Lynyrd Skynyrd", "answer": "Lærer", "why": "Bandet er oppkalt etter gymlæreren sin, Leonard Skinner." }
+      ]
+    },
+    {
+      "name": "Byer",
+      "songs": [
+        { "difficulty": 1, "title": "Empire State of Mind", "artist": "JAY-Z", "answer": "New York", "why": "Refrenget synger New York." },
+        { "difficulty": 2, "title": "Viva Las Vegas", "artist": "Elvis Presley", "answer": "Las Vegas", "why": "Står i tittelen." },
+        { "difficulty": 3, "title": "More Than a Feeling", "artist": "Boston", "answer": "Boston", "why": "Bandet heter Boston." },
+        { "difficulty": 4, "title": "Under the Bridge", "artist": "Red Hot Chili Peppers", "answer": "Los Angeles", "why": "Teksten kaller byen the city of angels. Det er Los Angeles." },
+        { "difficulty": 5, "title": "Wonderwall", "artist": "Oasis", "answer": "Manchester", "why": "Oasis kommer fra Manchester." }
+      ]
+    },
+    {
+      "name": "Kroppsdeler",
+      "songs": [
+        { "difficulty": 1, "title": "Hips Don't Lie", "artist": "Shakira", "answer": "Hofte", "why": "Hips betyr hofter." },
+        { "difficulty": 2, "title": "Total Eclipse of the Heart", "artist": "Bonnie Tyler", "answer": "Hjerte", "why": "Heart står i tittelen." },
+        { "difficulty": 3, "title": "Once in a Lifetime", "artist": "Talking Heads", "answer": "Hode", "why": "Bandet heter Talking Heads." },
+        { "difficulty": 4, "title": "Jolene", "artist": "Dolly Parton", "answer": "Hår", "why": "Teksten beskriver flaming locks of auburn hair." },
+        { "difficulty": 5, "title": "Start Me Up", "artist": "The Rolling Stones", "answer": "Tunge", "why": "Bandlogoen er en tunge og et par lepper." }
+      ]
+    },
+    {
+      "name": "Mat og drikke",
+      "songs": [
+        { "difficulty": 1, "title": "Sugar", "artist": "Maroon 5", "answer": "Sukker", "why": "Tittelen er svaret." },
+        { "difficulty": 2, "title": "Red Red Wine", "artist": "UB40", "answer": "Vin", "why": "Wine står i tittelen." },
+        { "difficulty": 3, "title": "Sunshine of Your Love", "artist": "Cream", "answer": "Fløte", "why": "Bandet heter Cream." },
+        { "difficulty": 4, "title": "I'd Do Anything for Love (But I Won't Do That)", "artist": "Meat Loaf", "answer": "Kjøttpudding", "why": "Artisten heter Meat Loaf. Det betyr kjøttpudding." },
+        { "difficulty": 5, "title": "Sunday Morning", "artist": "The Velvet Underground", "answer": "Banan", "why": "Albumomslaget til Andy Warhol viser en banan." }
+      ]
+    },
+    {
+      "name": "Vær",
+      "songs": [
+        { "difficulty": 1, "title": "Umbrella", "artist": "Rihanna", "answer": "Regn", "why": "Sangen handler om å stå under en paraply i regnet." },
+        { "difficulty": 2, "title": "Thunderstruck", "artist": "AC/DC", "answer": "Torden og lyn", "why": "Thunder betyr torden." },
+        { "difficulty": 3, "title": "Riders on the Storm", "artist": "The Doors", "answer": "Storm", "why": "Sangen åpner med lyden av regn og torden." },
+        { "difficulty": 4, "title": "Cold as Ice", "artist": "Foreigner", "answer": "Is og kulde", "why": "Ice står i tittelen." },
+        { "difficulty": 5, "title": "There There", "artist": "Radiohead", "answer": "Hagl", "why": "Albumet heter Hail to the Thief. Hail betyr hagl." }
+      ]
+    }
+  ]
+}

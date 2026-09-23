@@ -1,0 +1,287 @@
+{
+  "id": "mai-2024",
+  "name": "Musikkquiz mai 2024",
+  "description": "Tall, navn, sted, yrke, butikk, samplet artist, idrett og mat.",
+  "categories": [
+    {
+      "name": "Tall",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Jenter",
+          "artist": "",
+          "answer": "89"
+        },
+        {
+          "difficulty": 2,
+          "title": "One Last Time",
+          "artist": "Ariana Grande",
+          "answer": "1"
+        },
+        {
+          "difficulty": 3,
+          "title": "Sk8er Boi",
+          "artist": "Avril Lavigne",
+          "answer": "8"
+        },
+        {
+          "difficulty": 4,
+          "title": "Dans med meg",
+          "artist": "",
+          "answer": "101"
+        },
+        {
+          "difficulty": 5,
+          "title": "Fortnight",
+          "artist": "Taylor Swift",
+          "answer": "14"
+        }
+      ]
+    },
+    {
+      "name": "Navn",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Pedro",
+          "artist": "",
+          "answer": "Pedro"
+        },
+        {
+          "difficulty": 2,
+          "title": "Valerie",
+          "artist": "Amy Winehouse",
+          "answer": "Valerie"
+        },
+        {
+          "difficulty": 3,
+          "title": "Situasjon",
+          "artist": "",
+          "answer": "Sindre Finnes"
+        },
+        {
+          "difficulty": 4,
+          "title": "Casino",
+          "artist": "",
+          "answer": "Mbappé"
+        },
+        {
+          "difficulty": 5,
+          "title": "If I Were a Boy",
+          "artist": "Beyoncé",
+          "answer": "Sasha Fierce"
+        }
+      ]
+    },
+    {
+      "name": "Sted",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Texas Hold 'Em",
+          "artist": "Beyoncé",
+          "answer": "Texas"
+        },
+        {
+          "difficulty": 2,
+          "title": "Budapest",
+          "artist": "George Ezra",
+          "answer": "Budapest"
+        },
+        {
+          "difficulty": 3,
+          "title": "Florida!!!",
+          "artist": "Taylor Swift",
+          "answer": "Florida"
+        },
+        {
+          "difficulty": 4,
+          "title": "The Final Countdown",
+          "artist": "Europe",
+          "answer": "Europa"
+        },
+        {
+          "difficulty": 5,
+          "title": "Dog Days Are Over",
+          "artist": "Florence + The Machine",
+          "answer": "Firenze"
+        }
+      ]
+    },
+    {
+      "name": "Yrke",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "The Man Who Can't Be Moved",
+          "artist": "The Script",
+          "answer": "Politi"
+        },
+        {
+          "difficulty": 2,
+          "title": "Tore Tang",
+          "artist": "",
+          "answer": "Spelemann"
+        },
+        {
+          "difficulty": 3,
+          "title": "Snakke litt",
+          "artist": "",
+          "answer": "Admiral"
+        },
+        {
+          "difficulty": 4,
+          "title": "Clocks",
+          "artist": "Coldplay",
+          "answer": "Urmaker"
+        },
+        {
+          "difficulty": 5,
+          "title": "Mr. Brightside",
+          "artist": "The Killers",
+          "answer": "Leiemorder"
+        }
+      ]
+    },
+    {
+      "name": "Butikk/bedrift",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "The Joker",
+          "artist": "Steve Miller Band",
+          "answer": "Joker"
+        },
+        {
+          "difficulty": 2,
+          "title": "Sharp Dressed Man",
+          "artist": "ZZ Top",
+          "answer": "Dressmann"
+        },
+        {
+          "difficulty": 3,
+          "title": "Dancing On My Own",
+          "artist": "Robyn",
+          "answer": "Corner"
+        },
+        {
+          "difficulty": 4,
+          "title": "Kiwi",
+          "artist": "Harry Styles",
+          "answer": "Kiwi"
+        },
+        {
+          "difficulty": 5,
+          "title": "Drive",
+          "artist": "Incubus",
+          "answer": "Cubus"
+        }
+      ]
+    },
+    {
+      "name": "Samplet artist",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "That Way",
+          "artist": "",
+          "answer": "Backstreet Boys"
+        },
+        {
+          "difficulty": 2,
+          "title": "I'll Be Missing You",
+          "artist": "Puff Daddy",
+          "answer": "The Police"
+        },
+        {
+          "difficulty": 3,
+          "title": "Tenke sjæl",
+          "artist": "",
+          "answer": "Trond-Viggo Torgersen"
+        },
+        {
+          "difficulty": 4,
+          "title": "Feite damer",
+          "artist": "",
+          "answer": "Belinda Carlisle"
+        },
+        {
+          "difficulty": 5,
+          "title": "I Don't Wanna Wait",
+          "artist": "David Guetta",
+          "answer": "O-Zone"
+        }
+      ]
+    },
+    {
+      "name": "Idrett",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Æ vil bare dans",
+          "artist": "",
+          "answer": "Dans"
+        },
+        {
+          "difficulty": 2,
+          "title": "Born to Run",
+          "artist": "Bruce Springsteen",
+          "answer": "Løping"
+        },
+        {
+          "difficulty": 3,
+          "title": "Total Eclipse of the Heart",
+          "artist": "Bonnie Tyler",
+          "answer": "Turn"
+        },
+        {
+          "difficulty": 4,
+          "title": "Circus",
+          "artist": "Britney Spears",
+          "answer": "Spydkast"
+        },
+        {
+          "difficulty": 5,
+          "title": "Just Do It",
+          "artist": "",
+          "answer": "Nike"
+        }
+      ]
+    },
+    {
+      "name": "Mat/drikke",
+      "songs": [
+        {
+          "difficulty": 1,
+          "title": "Espresso",
+          "artist": "Sabrina Carpenter",
+          "answer": "Espresso"
+        },
+        {
+          "difficulty": 2,
+          "title": "Lady Marmalade",
+          "artist": "Christina Aguilera",
+          "answer": "Syltetøy"
+        },
+        {
+          "difficulty": 3,
+          "title": "Sugar, We're Goin Down",
+          "artist": "Fall Out Boy",
+          "answer": "Sukker"
+        },
+        {
+          "difficulty": 4,
+          "title": "Haven't Met You Yet",
+          "artist": "Michael Bublé",
+          "answer": "Bobler"
+        },
+        {
+          "difficulty": 5,
+          "title": "Bleeding Love",
+          "artist": "Leona Lewis",
+          "answer": "Sprit"
+        }
+      ]
+    }
+  ]
+}
